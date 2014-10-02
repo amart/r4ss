@@ -15,6 +15,7 @@
 #' @param Nsurveys number of surveys
 #' @param N_areas number of areas
 #' @param fleetnames names of fleets
+#' @param fisherytiming vector of fishery timings
 #' @param surveytiming vector of survey timings
 #' @param areas area definitions for each fleet or survey
 #' @param units_of_catch units of catch for each fleet
@@ -69,6 +70,7 @@ SS_makedatlist <-
              Nsurveys=1,
              N_areas=1,
              fleetnames=c("fishery1","survey1"),
+             fisherytiming=0.5,
              surveytiming=0.5,
              areas=1,
              units_of_catch=1,
@@ -118,7 +120,7 @@ SS_makedatlist <-
         N_MeanSize_at_Age_obs <- ifelse(is.null(MeanSize_at_Age_obs), 0, nrow(MeanSize_at_Age_obs))
 
 
-        fleetinfo1 <- data.frame(rbind(rep(surveytiming,Nfleet+Nsurveys),
+        fleetinfo1 <- data.frame(rbind(c(rep(fisherytiming,Nfleet),rep(surveytiming,Nsurveys)),
                                         rep(areas,Nfleet+Nsurveys)))
         names(fleetinfo1) <- fleetnames
         names(fleetinfo1)[1] <- paste("#",names(fleetinfo1)[1],sep="")
@@ -143,6 +145,7 @@ SS_makedatlist <-
                         Nsurveys = Nsurveys,
                         N_areas = N_areas,
                         fleetnames = fleetnames,
+                        fisherytiming = fisherytiming,
                         surveytiming = surveytiming,
                         areas = areas,
                         units_of_catch = units_of_catch,
