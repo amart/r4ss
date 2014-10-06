@@ -120,7 +120,7 @@ SS_makedatlist <-
         N_MeanSize_at_Age_obs <- ifelse(is.null(MeanSize_at_Age_obs), 0, nrow(MeanSize_at_Age_obs))
 
 
-        fleetinfo1 <- data.frame(rbind(c(rep(fisherytiming,Nfleet),rep(surveytiming,Nsurveys)),
+        fleetinfo1 <- data.frame(rbind(c(fisherytiming,surveytiming),
                                         rep(areas,Nfleet+Nsurveys)))
         names(fleetinfo1) <- fleetnames
         names(fleetinfo1)[1] <- paste("#",names(fleetinfo1)[1],sep="")
