@@ -75,8 +75,8 @@ SS_writedat <- function(datlist,outfile,overwrite=FALSE,verbose=TRUE){
   wl("Nsurveys")
   wl("N_areas")
   writeLines(paste(paste(datlist$fleetnames,collapse="%"),"#_fleetnames"))
-  writeLines(paste(paste(rep(datlist$fisherytiming,datlist$Nfleet),collapse=" "),
-                   paste(rep(datlist$surveytiming,datlist$Nsurveys),collapse=" "),
+  writeLines(paste(paste(datlist$fisherytiming,collapse=" "),
+                   paste(datlist$surveytiming,collapse=" "),
                    "#_surveytiming_in_season"))
   writeLines(paste(paste(rep(datlist$areas,datlist$Nfleet+datlist$Nsurveys),collapse=" "),
                    "#_area_assignments_for_each_fishery_and_survey"))
@@ -86,7 +86,7 @@ SS_writedat <- function(datlist,outfile,overwrite=FALSE,verbose=TRUE){
                    "#_se of log(catch) only used for init_eq_catch and for Fmethod 2 and 3"))
   wl("Ngenders")
   wl("Nages")
-  writeLines(paste(paste(rep(datlist$init_equil,datlist$Nfleet),collapse=" "),
+  writeLines(paste(paste(datlist$init_equil,collapse=" "),
                    "#_init_equil_catch_for_each_fishery"))
   wl("N_catch",comment="#_N_lines_of_catch_to_read")
   if(!is.null(datlist$catch)) printdf(datlist$catch)
