@@ -121,14 +121,12 @@ SS_makedatlist <-
         N_environ_obs <- ifelse(is.null(environ_obs), 0, nrow(environ_obs))
 
 
-        fleetinfo1 <- data.frame(rbind(c(fisherytiming,surveytiming),
-                                        rep(areas,Nfleet+Nsurveys)))
+        fleetinfo1 <- data.frame(rbind(c(fisherytiming,surveytiming),areas))
         names(fleetinfo1) <- fleetnames
         names(fleetinfo1)[1] <- paste("#",names(fleetinfo1)[1],sep="")
         fleetinfo1$input <- c("#_surveytiming","#_areas")
 
-        fleetinfo2 <- data.frame(rbind(rep(units_of_catch,Nfleet),
-                                        rep(se_log_catch,Nfleet)))
+        fleetinfo2 <- data.frame(rbind(units_of_catch,se_log_catch))
         names(fleetinfo2) <- fleetnames[1:Nfleet]
         names(fleetinfo2)[1] <- paste("#",names(fleetinfo2)[1],sep="")
         fleetinfo2$input <- c("#_units_of_catch","#_se_log_catch")
