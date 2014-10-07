@@ -53,7 +53,7 @@
 #' have genders combined.
 #' @param MeanSize_at_Age_obs Data on mean size at age (if exists).
 #' @param N_environ_variables Number of environmental variables.
-#' @param environ_obs Environmental observations (if exists).
+#' @param envdat Environmental observations (if exists).
 #' @param N_sizefreq_methods Number of size frequency methods.
 #' @param do_tags Include tag data? NOT IMPLEMENTED YET.
 #' @param morphcomp_data Morph composition data. NOT IMPLEMENTED YET.
@@ -100,7 +100,7 @@ SS_makedatlist <-
              max_combined_age=1,
              MeanSize_at_Age_obs=NULL,
              N_environ_variables=0,
-             environ_obs=NULL,
+             envdat=NULL,
              N_sizefreq_methods=0,
              do_tags=0,
              morphcomp_data=0
@@ -118,7 +118,7 @@ SS_makedatlist <-
         N_ageerror_definitions <- ifelse(is.null(ageerror), 0, nrow(ageerror)/2)
         N_agecomp <- ifelse(is.null(agecomp), 0, nrow(agecomp))
         N_MeanSize_at_Age_obs <- ifelse(is.null(MeanSize_at_Age_obs), 0, nrow(MeanSize_at_Age_obs))
-        N_environ_obs <- ifelse(is.null(environ_obs), 0, nrow(environ_obs))
+        N_environ_obs <- ifelse(is.null(envdat), 0, nrow(envdat))
 
 
         fleetinfo1 <- data.frame(rbind(c(fisherytiming,surveytiming),areas))
@@ -188,7 +188,7 @@ SS_makedatlist <-
                         MeanSize_at_Age_obs = MeanSize_at_Age_obs,
                         N_environ_variables = N_environ_variables,
                         N_environ_obs = N_environ_obs,
-                        environ_obs = environ_obs,
+                        envdat = envdat,
                         N_sizefreq_methods = N_sizefreq_methods,
                         do_tags = do_tags,
                         morphcomp_data = morphcomp_data
