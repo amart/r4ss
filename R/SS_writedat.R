@@ -78,11 +78,11 @@ SS_writedat <- function(datlist,outfile,overwrite=FALSE,verbose=TRUE){
   writeLines(paste(paste(datlist$fisherytiming,collapse=" "),
                    paste(datlist$surveytiming,collapse=" "),
                    "#_surveytiming_in_season"))
-  writeLines(paste(paste(rep(datlist$areas,datlist$Nfleet+datlist$Nsurveys),collapse=" "),
+  writeLines(paste(paste(datlist$areas,collapse=" "),
                    "#_area_assignments_for_each_fishery_and_survey"))
-  writeLines(paste(paste(rep(datlist$units_of_catch,datlist$Nfleet),collapse=" "),
+  writeLines(paste(paste(datlist$units_of_catch,collapse=" "),
                    "#_units of catch:  1=bio; 2=num"))
-  writeLines(paste(paste(rep(datlist$se_log_catch,datlist$Nfleet),collapse=" "),
+  writeLines(paste(paste(datlist$se_log_catch,collapse=" "),
                    "#_se of log(catch) only used for init_eq_catch and for Fmethod 2 and 3"))
   wl("Ngenders")
   wl("Nages")
