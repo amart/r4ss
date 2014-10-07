@@ -9,20 +9,20 @@
 #' @param styr start year of the model
 #' @param endyr end year of the model
 #' @param nseas number of seasons
-#' @param months_per_seas months per seasons
+#' @param months_per_seas vector of months per season
 #' @param spawn_seas spawning season
 #' @param Nfleet number of fishing fleets
 #' @param Nsurveys number of surveys
 #' @param N_areas number of areas
-#' @param fleetnames names of fleets
+#' @param fleetnames names of fleets and surveys
 #' @param fisherytiming vector of fishery timings
 #' @param surveytiming vector of survey timings
-#' @param areas area definitions for each fleet or survey
+#' @param areas area definitions for each fleet and survey
 #' @param units_of_catch units of catch for each fleet
-#' @param se_log_catch Uncertainty in catch (standard error in log space).
+#' @param se_log_catch uncertainty in catch (standard error in log space) for each fleet
 #' @param Ngenders Number of genders.
 #' @param Nages Number of ages.
-#' @param init_equil Initial equilibrium catch.
+#' @param init_equil initial equilibrium catch for each fleet
 #' @param catch Catch data
 #' @param CPUE Indices of abundance (if present).
 #' @param N_discard_fleets Number of fleets with discard data.
@@ -53,7 +53,7 @@
 #' have genders combined.
 #' @param MeanSize_at_Age_obs Data on mean size at age (if exists).
 #' @param N_environ_variables Number of environmental variables.
-#' @param N_environ_obs Number of environmental observations.
+#' @param environ_obs Environmental observations (if exists).
 #' @param N_sizefreq_methods Number of size frequency methods.
 #' @param do_tags Include tag data? NOT IMPLEMENTED YET.
 #' @param morphcomp_data Morph composition data. NOT IMPLEMENTED YET.
@@ -100,7 +100,7 @@ SS_makedatlist <-
              max_combined_age=1,
              MeanSize_at_Age_obs=NULL,
              N_environ_variables=0,
-             N_environ_obs=0,
+             environ_obs=NULL,
              N_sizefreq_methods=0,
              do_tags=0,
              morphcomp_data=0
@@ -118,6 +118,7 @@ SS_makedatlist <-
         N_ageerror_definitions <- ifelse(is.null(ageerror), 0, nrow(ageerror)/2)
         N_agecomp <- ifelse(is.null(agecomp), 0, nrow(agecomp))
         N_MeanSize_at_Age_obs <- ifelse(is.null(MeanSize_at_Age_obs), 0, nrow(MeanSize_at_Age_obs))
+        N_environ_obs <- ifelse(is.null(environ_obs), 0, nrow(environ_obs))
 
 
         fleetinfo1 <- data.frame(rbind(c(fisherytiming,surveytiming),
@@ -189,6 +190,7 @@ SS_makedatlist <-
                         MeanSize_at_Age_obs = MeanSize_at_Age_obs,
                         N_environ_variables = N_environ_variables,
                         N_environ_obs = N_environ_obs,
+                        environ_obs = environ_obs,
                         N_sizefreq_methods = N_sizefreq_methods,
                         do_tags = do_tags,
                         morphcomp_data = morphcomp_data
