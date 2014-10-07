@@ -54,7 +54,7 @@
 #' @param MeanSize_at_Age_obs Data on mean size at age (if exists).
 #' @param N_environ_variables Number of environmental variables.
 #' @param envdat Environmental observations (if exists).
-#' @param N_sizefreq_methods Number of size frequency methods.
+#' @param N_sizefreq_methods Number of size frequency methods. NOT IMPLEMENTED YET.
 #' @param do_tags Include tag data? NOT IMPLEMENTED YET.
 #' @param morphcomp_data Morph composition data. NOT IMPLEMENTED YET.
 #' @author Ian Taylor
