@@ -14,7 +14,6 @@
 #' @param Nfleet number of fishing fleets
 #' @param Nsurveys number of surveys
 #' @param N_areas number of areas
-<<<<<<< HEAD
 #' @param fleetnames names of fleets and surveys
 #' @param fisherytiming vector of fishery timings
 #' @param surveytiming vector of survey timings
@@ -24,18 +23,6 @@
 #' @param Ngenders Number of genders.
 #' @param Nages Number of ages.
 #' @param init_equil initial equilibrium catch for each fleet
-=======
-#' @param fleetnames names of fleets and surveys (alphanumeric only,
-#' no spaces or special characters)
-#' @param surveytiming vector of survey timings
-#' @param areas area definitions for each fleet and survey
-#' @param units_of_catch units of catch for each fleet
-#' @param se_log_catch Uncertainty in catch (standard error in log space)
-#' for each fleet
-#' @param Ngenders Number of genders.
-#' @param Nages Number of ages.
-#' @param init_equil Initial equilibrium catch for each fleet
->>>>>>> upstream/master
 #' @param catch Catch data
 #' @param CPUE Indices of abundance (if present).
 #' @param N_discard_fleets Number of fleets with discard data.
@@ -66,17 +53,8 @@
 #' have genders combined.
 #' @param MeanSize_at_Age_obs Data on mean size at age (if exists).
 #' @param N_environ_variables Number of environmental variables.
-<<<<<<< HEAD
-#' @param envdat Environmental observations (if exists).
-<<<<<<< HEAD
-#' @param N_sizefreq_methods Number of size frequency methods.
-=======
-#' @param N_environ_obs Number of environmental observations.
+#' @param environ_obs Environmental observations (if exists).
 #' @param N_sizefreq_methods Number of size frequency methods. NOT IMPLEMENTED YET.
->>>>>>> upstream/master
-=======
-#' @param N_sizefreq_methods Number of size frequency methods. NOT IMPLEMENTED YET.
->>>>>>> 9a87891cf969ecf913bf5342ac6304440a6b224d
 #' @param do_tags Include tag data? NOT IMPLEMENTED YET.
 #' @param morphcomp_data Morph composition data. NOT IMPLEMENTED YET.
 #' @author Ian Taylor
@@ -122,7 +100,7 @@ SS_makedatlist <-
              max_combined_age=1,
              MeanSize_at_Age_obs=NULL,
              N_environ_variables=0,
-             envdat=NULL,
+             environ_obs=NULL,
              N_sizefreq_methods=0,
              do_tags=0,
              morphcomp_data=0
@@ -140,15 +118,17 @@ SS_makedatlist <-
         N_ageerror_definitions <- ifelse(is.null(ageerror), 0, nrow(ageerror)/2)
         N_agecomp <- ifelse(is.null(agecomp), 0, nrow(agecomp))
         N_MeanSize_at_Age_obs <- ifelse(is.null(MeanSize_at_Age_obs), 0, nrow(MeanSize_at_Age_obs))
-        N_environ_obs <- ifelse(is.null(envdat), 0, nrow(envdat))
+        N_environ_obs <- ifelse(is.null(environ_obs), 0, nrow(environ_obs))
 
 
-        fleetinfo1 <- data.frame(rbind(c(fisherytiming,surveytiming),areas))
+        fleetinfo1 <- data.frame(rbind(c(fisherytiming,surveytiming),
+                                        rep(areas,Nfleet+Nsurveys)))
         names(fleetinfo1) <- fleetnames
         names(fleetinfo1)[1] <- paste("#",names(fleetinfo1)[1],sep="")
         fleetinfo1$input <- c("#_surveytiming","#_areas")
 
-        fleetinfo2 <- data.frame(rbind(units_of_catch,se_log_catch))
+        fleetinfo2 <- data.frame(rbind(rep(units_of_catch,Nfleet),
+                                        rep(se_log_catch,Nfleet)))
         names(fleetinfo2) <- fleetnames[1:Nfleet]
         names(fleetinfo2)[1] <- paste("#",names(fleetinfo2)[1],sep="")
         fleetinfo2$input <- c("#_units_of_catch","#_se_log_catch")
@@ -210,7 +190,7 @@ SS_makedatlist <-
                         MeanSize_at_Age_obs = MeanSize_at_Age_obs,
                         N_environ_variables = N_environ_variables,
                         N_environ_obs = N_environ_obs,
-                        envdat = envdat,
+                        environ_obs = environ_obs,
                         N_sizefreq_methods = N_sizefreq_methods,
                         do_tags = do_tags,
                         morphcomp_data = morphcomp_data
