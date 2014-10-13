@@ -68,11 +68,15 @@
 #' @param N_environ_variables Number of environmental variables.
 <<<<<<< HEAD
 #' @param envdat Environmental observations (if exists).
+<<<<<<< HEAD
 #' @param N_sizefreq_methods Number of size frequency methods.
 =======
 #' @param N_environ_obs Number of environmental observations.
 #' @param N_sizefreq_methods Number of size frequency methods. NOT IMPLEMENTED YET.
 >>>>>>> upstream/master
+=======
+#' @param N_sizefreq_methods Number of size frequency methods. NOT IMPLEMENTED YET.
+>>>>>>> 9a87891cf969ecf913bf5342ac6304440a6b224d
 #' @param do_tags Include tag data? NOT IMPLEMENTED YET.
 #' @param morphcomp_data Morph composition data. NOT IMPLEMENTED YET.
 #' @author Ian Taylor
