@@ -8,7 +8,7 @@ sim_add_catch <- function(dat_struct=NULL,catch_vec=NULL,seas=-1,catch_year=-1)
 {
     new_dat_struct <- NULL
 
-    if (dat_struct != NULL && catch_vec != NULL && seas > 0 && catch_year > 0)
+    if (!is.null(dat_struct) && !is.null(catch_vec) && seas > 0 && catch_year > 0)
     {
         new_dat_struct <- dat_struct
 
