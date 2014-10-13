@@ -6,6 +6,8 @@
 
 sim_set_endyr <- function(dat_struct=NULL,endyr=-1)
 {
+    new_dat_struct <- NULL
+
     if (dat_struct != NULL)
     {
         new_dat_struct <- dat_struct
