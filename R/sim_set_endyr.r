@@ -1,8 +1,10 @@
-# Run SS simulations
-# ZTA, 2014-10-13
-# R version 3.1.1, 32-bit
-
-# this function sets the variable endyr in the data structure for the SS DAT file
+##' this function sets the variable endyr in the data structure for the SS DAT file
+##'
+##' @param dat_struct - DAT structure to be edited
+##' @param endyr - value to replace endyr
+##' @return edited DAT structure
+##' @export
+##'
 
 sim_set_endyr <- function(dat_struct=NULL,endyr=-1)
 {
