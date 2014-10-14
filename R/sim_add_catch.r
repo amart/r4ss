@@ -1,8 +1,12 @@
-# Run SS simulations
-# ZTA, 2014-10-13
-# R version 3.1.1, 32-bit
-
-# this function adds a new line for catch in the catch dataframe in the data structure for the SS DAT file
+##' this function adds a new line for catch in the catch dataframe in the data structure for the SS DAT file
+##'
+##' @param dat_struct - DAT structure to be edited
+##' @param catch_vec - catches for each fleet (vector)
+##' @param seas - season that the catches will be applied
+##' @param catch_year - year that the catches will be applied
+##' @return edited DAT structure
+##' @export
+##'
 
 sim_add_catch <- function(dat_struct=NULL,catch_vec=NULL,seas=-1,catch_year=-1)
 {
