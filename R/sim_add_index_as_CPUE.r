@@ -1,8 +1,14 @@
-# Run SS simulations
-# ZTA, 2014-10-13
-# R version 3.1.1, 32-bit
-
-# this function adds a new line for an index observation in the CPUE dataframe in the data structure for the SS DAT file
+##' this function adds a new line for an index observation in the CPUE dataframe in the data structure for the SS DAT file
+##'
+##' @param dat_struct - DAT structure to be edited
+##' @param index_year - year for the index observation
+##' @param seas - season for the index observation
+##' @param index_fleet - fleet for the index observation
+##' @param index_obs - CPUE or index observation
+##' @param index_std_err - standard error for the index observation
+##' @return edited DAT structure
+##' @export
+##'
 
 sim_add_index_as_CPUE <- function(dat_struct=NULL,index_year=-1,seas=-1,index_fleet=-1,index_obs=-999,index_std_err=999.0)
 {
