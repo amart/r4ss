@@ -29,6 +29,7 @@
 #' @importFrom gtools running
 #' @importFrom pso psoptim
 #' @importFrom RCurl getURL
+#' @importFrom gdata startsWith
 #' @examples
 #' 
 #' \dontrun{
