@@ -21,7 +21,7 @@ sim_add_index_as_CPUE <- function(dat_struct=NULL,index_year=-1,seas=-1,index_fl
         if (index_fleet <= (dat_struct$Nfleet+dat_struct$Nsurveys) && seas <= dat_struct$nseas)
         {
             new_dat_struct$CPUE   <- rbind(dat_struct$CPUE,c(index_year,seas,index_fleet,index_obs,index_std_err))
-            new_dat_struct$N_cpue <- dat_struct$N_cpue + 1
+            new_dat_struct$N_cpue <- nrow(new_dat_struct$CPUE)
         }
     }
 

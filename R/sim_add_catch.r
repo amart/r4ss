@@ -21,7 +21,7 @@ sim_add_catch <- function(dat_struct=NULL,catch_mat=NULL,catch_year=-1)
             catch_proj_df          <- data.frame(cbind(catch_mat,catch_year,seq(1,dat_struct$nseas)))
             names(catch_proj_df)   <- names(dat_struct$catch)
             new_dat_struct$catch   <- rbind(dat_struct$catch,catch_proj_df)
-            new_dat_struct$N_catch <- dat_struct$N_catch + dat_struct$nseas
+            new_dat_struct$N_catch <- nrow(new_dat_struct$catch)
         }
     }
 
