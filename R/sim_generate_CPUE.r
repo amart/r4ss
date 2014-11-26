@@ -5,11 +5,12 @@
 ##' @param CPUE_fleet - fleet number of the CPUE fleet
 ##' @param CPUE_fleet_name - fleet name of the CPUE fleet
 ##' @param CPUE_year - year for the generated CPUE observation
+##' @param apply_error - apply error to the generated observation (NOT IMPLEMENTED)
 ##' @return generated CPUE_obs and CPUE_std_err
 ##' @export
 ##'
 
-sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_fleet=-1,CPUE_fleet_name="",CPUE_year=-1)
+sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_fleet=-1,CPUE_fleet_name="",CPUE_year=-1,apply_err=FALSE)
 {
     new_CPUE_struct <- NULL
 
