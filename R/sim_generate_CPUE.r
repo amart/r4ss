@@ -1,6 +1,6 @@
 ##' this function generates a CPUE observation for the CPUE dataframe in the data structure for the SS DAT file
 ##'
-##' @param dat_struct - DAT structure to be edited
+##' @param dat_struct - DAT structure
 ##' @param rep_struct - structure returned by SS_output()
 ##' @param CPUE_fleet - fleet number of the CPUE fleet
 ##' @param CPUE_fleet_name - fleet name of the CPUE fleet
