@@ -5,7 +5,7 @@
 ##' @param gen_fleet - fleet number
 ##' @param gen_year - year for the generated composition observation
 ##' @param apply_error - apply error to the generated observation (NOT IMPLEMENTED)
-##' @return generated age composition vector with sample size
+##' @return generated length composition vector with sample size
 ##' @export
 ##'
 
