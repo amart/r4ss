@@ -18,7 +18,7 @@ sim_generate_length_comp(dat_struct = NULL, rep_struct = NULL,
 \item{apply_error}{- apply error to the generated observation (NOT IMPLEMENTED)}
 }
 \value{
-generated age composition vector with sample size
+generated length composition vector with sample size
 }
 \description{
 this function generates a length composition observation for the fleet in the data structure for the SS DAT file
