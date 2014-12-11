@@ -4,21 +4,23 @@
 \title{this function generates a length composition observation for the fleet in the data structure for the SS DAT file}
 \usage{
 sim_generate_length_comp(dat_struct = NULL, rep_struct = NULL,
-  gen_fleet = -1, gen_year = -1, apply_error = FALSE)
+  gen_year = -1, gen_seas = -1, gen_fleet = -1, apply_error = FALSE)
 }
 \arguments{
 \item{dat_struct}{- DAT structure}
 
 \item{rep_struct}{- structure returned by SS_output()}
 
-\item{gen_fleet}{- fleet number}
-
 \item{gen_year}{- year for the generated composition observation}
 
-\item{apply_error}{- apply error to the generated observation (NOT IMPLEMENTED)}
+\item{gen_seas}{- season number}
+
+\item{gen_fleet}{- fleet number}
+
+\item{apply_error}{- apply error to the generated observation}
 }
 \value{
-generated length composition vector with sample size
+generated length composition matrix with sample size
 }
 \description{
 this function generates a length composition observation for the fleet in the data structure for the SS DAT file

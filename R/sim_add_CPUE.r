@@ -10,11 +10,11 @@
 ##' @export
 ##'
 
-sim_add_CPUE <- function(dat_struct=NULL,CPUE_year=-1,CPUE_seas=-1,CPUE_fleet=-1,CPUE_obs=-999,CPUE_std_err=999.0)
+sim_add_CPUE <- function(dat_struct=NULL,CPUE_year=-1,CPUE_seas=-1,CPUE_fleet=-1,CPUE_obs=-999.0,CPUE_std_err=999.0)
 {
     new_dat_struct <- NULL
 
-    if (!is.null(dat_struct) && CPUE_year > 0 && CPUE_seas > 0 && CPUE_fleet > 0 && CPUE_std_err > 0.0)
+    if (!is.null(dat_struct) && CPUE_year > 0 && CPUE_seas > 0 && CPUE_fleet > 0 && is.numeric(CPUE_obs) && CPUE_std_err > 0.0)
     {
         new_dat_struct <- dat_struct
 

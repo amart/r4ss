@@ -3,22 +3,24 @@
 \alias{sim_generate_age_comp}
 \title{this function generates an age composition observation for the fleet in the data structure for the SS DAT file}
 \usage{
-sim_generate_age_comp(dat_struct = NULL, rep_struct = NULL,
-  gen_fleet = -1, gen_year = -1, apply_error = FALSE)
+sim_generate_age_comp(dat_struct = NULL, rep_struct = NULL, gen_year = -1,
+  gen_seas = -1, gen_fleet = -1, apply_error = FALSE)
 }
 \arguments{
 \item{dat_struct}{- DAT structure}
 
 \item{rep_struct}{- structure returned by SS_output()}
 
-\item{gen_fleet}{- fleet number}
-
 \item{gen_year}{- year for the generated composition observation}
 
-\item{apply_error}{- apply error to the generated observation (NOT IMPLEMENTED)}
+\item{gen_seas}{- season number}
+
+\item{gen_fleet}{- fleet number}
+
+\item{apply_error}{- apply error to the generated observation}
 }
 \value{
-generated age composition vector with sample size
+generated age composition matrix with sample size
 }
 \description{
 this function generates an age composition observation for the fleet in the data structure for the SS DAT file

@@ -2,44 +2,38 @@
 ##'
 ##' @param dat_struct - DAT structure
 ##' @param rep_struct - structure returned by SS_output()
-##' @param CPUE_fleet - fleet number of the CPUE fleet
-##' @param CPUE_fleet_name - fleet name of the CPUE fleet
 ##' @param CPUE_year - year for the generated CPUE observation
+##' @param CPUE_seas - season for the generated CPUE observation
+##' @param CPUE_fleet - fleet number for the generated CPUE observation
 ##' @param apply_error - apply error to the generated observation (NOT IMPLEMENTED)
-##' @return generated CPUE_obs and CPUE_std_err
+##' @return structure with generated CPUE_obs and CPUE_std_err
 ##' @export
 ##'
 
-sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_fleet=-1,CPUE_fleet_name="",CPUE_year=-1,apply_err=FALSE)
+sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_year=-1,CPUE_seas=-1,CPUE_fleet=-1,apply_err=FALSE)
 {
     new_CPUE_struct <- NULL
 
-    if (!is.null(dat_struct) && !is.null(rep_struct) && CPUE_fleet > 0 && length(CPUE_fleet_name) > 0 && CPUE_year > 0)
+    if (!is.null(dat_struct) && !is.null(rep_struct) && CPUE_year > 0 && CPUE_seas > 0 && CPUE_fleet > 0)
     {
-        ngend           <- dat_struct$Ngenders
-
-        surveytiming    <- dat_struct$fleetinfo1["surveytiming",CPUE_fleet_name]
-
-        # forecast numbers-at-age, in thousands
-        forecast_natage <- subset(subset(subset(rep_struct$natage,rep_struct$natage$"Beg/Mid" == ifelse(surveytiming == 0,"B","M")),Yr == CPUE_year),Seas == CPUE_seas)
-
-
-        # estimated srv selectivity-at-age
-        srv_ageselex <- subset(rep_struct$ageselex,rep_struct$ageselex$fleet == CPUE_fleet)
-
-        # get the most recent srv selectivity-at-age
-        srv_ageselex <- subset(srv_ageselex,srv_ageselex$year == max(srv_ageselex$year))
-
-
         CPUE_obs <- 0.0
         CPUE_q   <- 0.0
 
+        ngend    <- dat_struct$Ngenders
+        nages    <- dat_struct$Nages
+
+        # get numbers-at-age, in thousands
+        true_natage <- sim_get_N_at_age(dat_struct,rep_struct,CPUE_year,CPUE_seas,CPUE_fleet)
+
+        # get the most recent selectivity-at-age for this fleet
+        srv_ageselex    <- sim_get_age_selex(rep_struct,CPUE_fleet)
+
         # check that the number of genders matches the number of rows
-        if (dim(forecast_natage)[1] == ngend && dim(srv_ageselex)[1] == ngend)
+        if (dim(true_natage)[1] == ngend && dim(srv_ageselex)[1] == ngend)
         {
-            # ick - hardcoded
-            natage   <- forecast_natage[,-11:-1]
-            ageselex <- srv_ageselex[,-7:-1]
+            natage   <- true_natage[,(-(dim(true_natage)[2] - nages - 1)):-1]
+
+            ageselex <- true_ageselex[,(-(dim(true_ageselex)[2] - nages - 1)):-1]
 
             srv_units <- dat_struct$CPUEinfo[dat_struct$CPUEinfo$Fleet == CPUE_fleet,]$Units
 
@@ -59,12 +53,10 @@ sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_fleet=-1,CPUE
 
                 srv_wtatage <- subset(rep_struct$wtatage,rep_struct$wtatage$fleet == ifelse(surveytiming == 0,0,-1))
 
-                # get the most recent wt-at-age
+                # get the most recent wt-at-age (the years are all negative, hence min())
                 srv_wtatage <- subset(srv_wtatage,srv_wtatage$yr == min(srv_wtatage$yr))
 
-
-                # ick - hardcoded
-                wtatage  <- srv_wtatage[,-6:-1]
+                wtatage  <- srv_wtatage[,(-(dim(srv_wtatage)[2] - nages - 1)):-1]
 
                 # estimated survey biomass
                 for (i in 1:ngend)
@@ -88,9 +80,10 @@ sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_fleet=-1,CPUE
             CPUE_obs <- CPUE_q * CPUE_obs
         }
 
-        # generate the standard error
+        # get time series of CPUE obs and standard errors
         surveyobs       <- dat_struct$CPUE[dat_struct$CPUE$index == CPUE_fleet,]
 
+        # generate the standard error
         CPUE_std_err    <- sample(surveyobs$se_log,1)
 
 
