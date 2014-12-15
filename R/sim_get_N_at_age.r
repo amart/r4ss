@@ -22,9 +22,12 @@ sim_get_N_at_age <- function(dat_struct=NULL,rep_struct=NULL,ret_year=-1,ret_sea
         # get numbers-at-age, in thousands
         true_natage <- subset(subset(subset(rep_struct$natage,rep_struct$natage$"Beg/Mid" == ifelse(surveytiming == 0,"B","M")),Yr == ret_year),Seas == ret_seas)
 
-        if (dim(true_natage)[1] > 0)
+        if (dim(true_natage)[1] == dat_struct$Ngenders)
         {
-            new_N_at_age <- true_natage
+            nages        <- dat_struct$Nages
+
+            # leave off the indexing columns
+            new_N_at_age <- true_natage[,(-(dim(true_natage)[2] - nages - 1)):-1]
         }
     }
 

@@ -26,14 +26,14 @@ sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_year=-1,CPUE_
         true_natage <- sim_get_N_at_age(dat_struct,rep_struct,CPUE_year,CPUE_seas,CPUE_fleet)
 
         # get the most recent selectivity-at-age for this fleet
-        srv_ageselex    <- sim_get_age_selex(rep_struct,CPUE_fleet)
+        srv_ageselex    <- sim_get_age_selex(dat_struct,rep_struct,CPUE_fleet)
 
         # check that the number of genders matches the number of rows
         if (dim(true_natage)[1] == ngend && dim(srv_ageselex)[1] == ngend)
         {
-            natage   <- true_natage[,(-(dim(true_natage)[2] - nages - 1)):-1]
+            natage   <- true_natage
 
-            ageselex <- true_ageselex[,(-(dim(true_ageselex)[2] - nages - 1)):-1]
+            ageselex <- true_ageselex
 
             srv_units <- dat_struct$CPUEinfo[dat_struct$CPUEinfo$Fleet == CPUE_fleet,]$Units
 

@@ -24,16 +24,16 @@ sim_generate_age_comp <- function(dat_struct=NULL,rep_struct=NULL,gen_year=-1,ge
         true_natage   <- sim_get_N_at_age(dat_struct,rep_struct,gen_year,gen_seas,gen_fleet)
 
         # get the most recent selectivity-at-age for this fleet
-        true_ageselex <- sim_get_age_selex(rep_struct,gen_fleet)
+        true_ageselex <- sim_get_age_selex(dat_struct,rep_struct,gen_fleet)
 
         # check that the number of genders matches the number of rows
         if (dim(true_natage)[1] == ngend && dim(true_ageselex)[1] == ngend)
         {
             # the numbers-at-age values only
-            natage   <- true_natage[,(-(dim(true_natage)[2] - nages - 1)):-1]
+            natage   <- true_natage
 
             # the selectivity-at-age values only
-            ageselex <- true_ageselex[,(-(dim(true_ageselex)[2] - nages - 1)):-1]
+            ageselex <- true_ageselex
 
             # here they are, not normalized
             true_age_comp <- natage * ageselex

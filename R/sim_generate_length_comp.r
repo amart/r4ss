@@ -24,16 +24,16 @@ sim_generate_length_comp <- function(dat_struct=NULL,rep_struct=NULL,gen_year=-1
         true_natlen <- sim_get_N_at_length(dat_struct,rep_struct,gen_year,gen_seas,gen_fleet)
 
         # get the most recent selectivity-at-length for this fleet
-        true_lenselex <- sim_get_length_selex(rep_struct,gen_fleet)
+        true_lenselex <- sim_get_length_selex(dat_struct,rep_struct,gen_fleet)
 
         # check that the number of genders matches the number of rows
         if (dim(true_natlen)[1] == ngend && dim(true_lenselex)[1] == ngend)
         {
             # the numbers-at-len values only
-            natlen   <- true_natlen[,(-(dim(true_natlen)[2] - nlens)):-1]
+            natlen   <- true_natlen
 
             # the selectivity-at-len values only
-            lenselex <- true_lenselex[,(-(dim(true_lenselex)[2] - nlens)):-1]
+            lenselex <- true_lenselex
 
             # here they are, not normalized
             true_len_comp <- natlen * lenselex
