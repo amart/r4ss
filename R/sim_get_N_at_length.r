@@ -17,6 +17,8 @@ sim_get_N_at_length <- function(dat_struct=NULL,rep_struct=NULL,ret_year=-1,ret_
     {
         ngend        <- dat_struct$Ngenders
 
+        nlens        <- dat_struct$N_lbinspop
+
         fleet_name   <- dat_struct$fleetname[fleet_num]
 
         surveytiming <- dat_struct$fleetinfo1["surveytiming",fleet_name]
@@ -26,8 +28,6 @@ sim_get_N_at_length <- function(dat_struct=NULL,rep_struct=NULL,ret_year=-1,ret_
 
         if (dim(true_natlen)[1] == ngend)
         {
-            nlens <- dat_struct$N_lbinspop
-
             # leave off the indexing columns
             new_N_at_length <- true_natlen[,(-(dim(true_natlen)[2] - nlens)):-1]
         } else {
