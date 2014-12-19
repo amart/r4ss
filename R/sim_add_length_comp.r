@@ -32,7 +32,7 @@ sim_add_length_comp <- function(dat_struct=NULL,comp_year=-1,comp_seas=-1,comp_f
                 new_dat_struct$lencomp <- rbind(dat_struct$lencomp,c(comp_year,comp_seas,comp_fleet,3,0,comp_Nsamp,as.vector(comp_matrix[1,])))
             }
 
-            new_dat_struct$N_lencomp <- nrows(new_dat_struct$lencomp)
+            new_dat_struct$N_lencomp <- nrow(new_dat_struct$lencomp)
         }
     }
 
