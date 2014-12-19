@@ -32,7 +32,7 @@ sim_add_age_comp <- function(dat_struct=NULL,comp_year=-1,comp_seas=-1,comp_flee
                 new_dat_struct$agecomp <- rbind(dat_struct$agecomp,c(comp_year,comp_seas,comp_fleet,3,0,1,-1,-1,comp_Nsamp,as.vector(comp_matrix[1,])))
             }
 
-            new_dat_struct$N_agecomp <- nrows(new_dat_struct$agecomp)
+            new_dat_struct$N_agecomp <- nrow(new_dat_struct$agecomp)
         }
     }
 
