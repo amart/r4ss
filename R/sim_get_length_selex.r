@@ -16,6 +16,9 @@ sim_get_length_selex <- function(dat_struct=NULL,rep_struct=NULL,fleet_num=-1)
         # estimated selectivity-at-length
         fleet_len_selex <- subset(rep_struct$sizeselex,rep_struct$sizeselex$Fleet == fleet_num)
 
+        # get the selectivity-at-length vectors only
+        fleet_len_selex <- subset(fleet_len_selex,fleet_len_selex$Factor == "Lsel")
+
         # get the most recent selectivity-at-length
         fleet_len_selex <- subset(fleet_len_selex,fleet_len_selex$year == max(fleet_len_selex$year))
 
