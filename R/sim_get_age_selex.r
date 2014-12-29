@@ -16,6 +16,9 @@ sim_get_age_selex <- function(dat_struct=NULL,rep_struct=NULL,fleet_num=-1)
         # estimated selectivity-at-age
         fleet_age_selex <- subset(rep_struct$ageselex,rep_struct$ageselex$fleet == fleet_num)
 
+        # get the selectivity-at-age vectors only
+        fleet_age_selex <- subset(fleet_age_selex,fleet_age_selex$factor == "Asel")
+
         # get the most recent selectivity-at-age
         fleet_age_selex <- subset(fleet_age_selex,fleet_age_selex$year == max(fleet_age_selex$year))
 
