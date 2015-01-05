@@ -1,8 +1,8 @@
 #' read data file
-#'
+#' 
 #' read Stock Synthesis data file into list object in R
-#'
-#'
+#' 
+#' 
 #' @param file Filename either with full path or relative to working directory.
 #' @param verbose Should there be verbose output while running the file?
 #' Default=TRUE.
@@ -29,25 +29,15 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   if(!is.null(section)){
     Nsections <- as.numeric(substring(dat[grep("Number_of_datafiles",dat)],24))
     if(!section %in% 1:Nsections) stop("The 'section' input should be within the 'Number_of_datafiles' in a data.ss_new file.\n")
-    if(section==1)
-    {
-        end <- grep("#_expected values with no error added",dat)
-        if (length(end) > 0)
-        {
-            dat <- dat[grep("#_observed data:",dat):end]
-        } else {
-            dat <- dat[grep("#_observed data:",dat):length(dat)]
-        }
+    if(section==1){
+      end <- grep("#_expected values with no error added",dat)
+      if (length(end) == 0) end <- length(dat)
+      dat <- dat[grep("#_observed data:",dat):end]
     }
-    if(section==2)
-    {
-        end <- grep("#_bootstrap file: 1",dat)
-        if (length(end) > 0)
-        {
-            dat <- dat[grep("#_expected values with no error added",dat):end]
-        } else {
-            dat <- dat[grep("#_expected values with no error added",dat):length(dat)]
-        }
+    if(section==2){
+      end <- grep("#_bootstrap file: 1",dat)
+      if (length(end) == 0) end <- length(dat)
+      dat <- dat[grep("#_expected values with no error added",dat):end]
     }
     if(section>=3){
       start <- grep(paste("#_bootstrap file:",section-2),dat)
@@ -140,7 +130,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   ##   cat("fleetinfo1:\n")
   ##   print(t(fleetinfo1))
   ## }
-
+  
   datlist$units_of_catch <- units_of_catch <- allnums[i:(i+Nfleet-1)]; i <- i+Nfleet
   datlist$se_log_catch <- se_log_catch <- allnums[i:(i+Nfleet-1)]; i <- i+Nfleet
   fleetinfo2 <- data.frame(rbind(units_of_catch,se_log_catch))
@@ -152,7 +142,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   ##   print(t(fleetinfo2))
   ## }
 
-
+  
   # more dimensions
   datlist$Ngenders <- Ngenders <- allnums[i]; i <- i+1
   datlist$Nages <- Nages <- allnums[i]; i <- i+1
@@ -168,7 +158,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   datlist$catch <- catch
   i <- i+Nvals
   if(echoall) print(catch)
-
+  
   # CPUE
   datlist$N_cpue <- N_cpue <- allnums[i]; i <- i+1
   if(verbose) cat("N_cpue =",N_cpue,"\n")
@@ -228,7 +218,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   datlist$DF_for_meanbodywt <- allnums[i]
   i <- i+1
   if(echoall) cat("DF_for_meanbodywt =",datlist$DF_for_meanbodywt,"\n")
-
+  
   if(N_meanbodywt > 0){
     Ncols <- 6
     meanbodywt <- data.frame(matrix(
@@ -240,7 +230,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   }
   datlist$meanbodywt <- meanbodywt
   if(echoall) print(meanbodywt)
-
+  
   # length data
   datlist$lbin_method <- lbin_method <- allnums[i]; i <- i+1
   if(echoall) cat("lbin_method =",lbin_method,"\n")
@@ -269,7 +259,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   datlist$N_lbins <- N_lbins <- allnums[i]; i <- i+1
   datlist$lbin_vector <- lbin_vector <- allnums[i:(i+N_lbins-1)]; i <- i+N_lbins
   if(echoall) print(lbin_vector)
-
+  
   datlist$N_lencomp <- N_lencomp <- allnums[i]; i <- i+1
 
   # if(verbose) cat(datlist[-15:0 + length(datlist)])
@@ -298,7 +288,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
   }
   datlist$agebin_vector <- agebin_vector
   if(echoall) print(agebin_vector)
-
+  
   datlist$N_ageerror_definitions <- N_ageerror_definitions <- allnums[i]; i <- i+1
   if(N_ageerror_definitions > 0){
     Ncols <- Nages+1
@@ -363,7 +353,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
     envdat <- NULL
   }
   datlist$envdat <- envdat
-
+  
   datlist$N_sizefreq_methods <- N_sizefreq_methods <- allnums[i]; i <- i+1
   if(verbose) cat("N_sizefreq_methods =",N_sizefreq_methods,"\n")
   if(N_sizefreq_methods > 0){
@@ -424,11 +414,11 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
     datlist$Nobs_per_method    <- NULL
     datlist$sizefreq_bins_list <- NULL
     datlist$sizefreq_data_list <- NULL
-  }
-
+  }     
+  
   datlist$do_tags <- do_tags <- allnums[i]; i <- i+1
   if(verbose) cat("do_tags =",do_tags,"\n")
-
+  
   if(do_tags != 0){
     datlist$N_tag_groups <- N_tag_groups <- allnums[i]; i <- i+1
     datlist$N_recap_events <- N_recap_events <- allnums[i]; i <- i+1
@@ -465,7 +455,7 @@ SS_readdat <- function(file,verbose=TRUE,echoall=FALSE,section=NULL){
     }
     datlist$tag_recaps <- tag_recaps
   }
-
+  
   datlist$morphcomp_data <- do_morphcomps <- allnums[i]; i <- i+1
   if(verbose) cat("do_morphcomps =",do_morphcomps,"\n")
 
