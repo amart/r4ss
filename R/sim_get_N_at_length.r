@@ -36,13 +36,16 @@ sim_get_N_at_length <- function(dat_struct=NULL,rep_struct=NULL,ret_year=-1,ret_
 
             if (!is.null(new_N_at_age) && dim(new_N_at_age)[1] == ngend)
             {
-                new_N_at_length <- matrix(0,nrow=ngend,ncol=nlens)
+                new_N_at_length <- matrix(0,nrow=ngend,ncol=nlens,dimnames=list(c(),dat_struct$lbin_vector_pop))
 
                 for (i in 1:ngend)
                 {
                     # rep_struct$ALK:  the age-length transition matrix
                     # dimensions dat_struct$N_lbinspop x (dat_struct$Nages + 1) x dat_struct$Ngenders
-                    new_N_at_length[i,] <- as.matrix(new_N_at_age[i,],nrow=1,byrow=TRUE) %*% as.matrix(t(rep_struct$ALK[,,i]))
+
+                    # ARGH.  ALK is upside down; the rows go from maxlen to minlen
+                    rev_len_comp <- as.matrix(new_N_at_age[i,],nrow=1,byrow=TRUE) %*% as.matrix(t(rep_struct$ALK[,,i]))
+                    new_N_at_length[i,] <- t(rev_len_comp[length(rev_len_comp):1])
                 }
             }
         }

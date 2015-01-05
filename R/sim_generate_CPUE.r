@@ -5,16 +5,17 @@
 ##' @param CPUE_year - year for the generated CPUE observation
 ##' @param CPUE_seas - season for the generated CPUE observation
 ##' @param CPUE_fleet - fleet number for the generated CPUE observation
-##' @param apply_error - apply error to the generated observation (NOT IMPLEMENTED)
+##' @param CPUE_std_err - std err to use for the generated CPUE observation
+##' @param apply_error - apply error to the generated observation
 ##' @return structure with generated CPUE_obs and CPUE_std_err
 ##' @export
 ##'
 
-sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_year=-1,CPUE_seas=-1,CPUE_fleet=-1,apply_error=FALSE)
+sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_year=-1,CPUE_seas=-1,CPUE_fleet=-1,CPUE_std_err=-1,apply_error=FALSE)
 {
     new_CPUE_struct <- NULL
 
-    if (!is.null(dat_struct) && !is.null(rep_struct) && CPUE_year > 0 && CPUE_seas > 0 && CPUE_fleet > 0)
+    if (!is.null(dat_struct) && !is.null(rep_struct) && CPUE_year > 0 && CPUE_seas > 0 && CPUE_fleet > 0 && (apply_error == FALSE || (apply_error == TRUE && CPUE_std_err > 0)))
     {
         CPUE_obs <- 0.0
         CPUE_q   <- 0.0
@@ -82,12 +83,11 @@ sim_generate_CPUE <- function(dat_struct=NULL,rep_struct=NULL,CPUE_year=-1,CPUE_
             CPUE_obs <- CPUE_q * CPUE_obs
         }
 
-        # get time series of CPUE obs and standard errors
-        surveyobs       <- dat_struct$CPUE[dat_struct$CPUE$index == CPUE_fleet,]
-
-        # generate the standard error
-        CPUE_std_err    <- sample(surveyobs$se_log,1)
-
+        if (apply_error && CPUE_obs > 0)
+        {
+            # generate the lognormally distributed observation
+            CPUE_obs <- rlnorm(1,mean=log(CPUE_obs),sd=CPUE_std_err)
+        }
 
         new_CPUE_struct <- data.frame(obs=CPUE_obs,se_log=CPUE_std_err)
     }
