@@ -5,7 +5,8 @@
 \title{this function adds a new line for a length composition observation in the lencomp data structure for the SS DAT file}
 \usage{
 sim_add_length_comp(dat_struct = NULL, comp_year = -1, comp_seas = -1,
-  comp_fleet = -1, comp_Nsamp = -1, comp_matrix = NULL)
+  comp_fleet = -1, comp_Nsamp = -1, comp_gender = -1, comp_part = -1,
+  comp_matrix = NULL)
 }
 \arguments{
 \item{dat_struct}{- DAT structure to be edited}
@@ -17,6 +18,10 @@ sim_add_length_comp(dat_struct = NULL, comp_year = -1, comp_seas = -1,
 \item{comp_fleet}{- fleet for the length comp observation}
 
 \item{comp_Nsamp}{- sample size for the length comp observation}
+
+\item{comp_gender}{- gender indicator for the length comp observation (0 combine M & F, 1 F only, 2 M only, 3 separate M & F)}
+
+\item{comp_part}{- partition indicator for the length comp observation (0 combined, 1 discard, 2 retained)}
 
 \item{comp_matrix}{- length comp observation matrix, by sex}
 }
