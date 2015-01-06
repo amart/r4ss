@@ -44,13 +44,16 @@ sim_generate_length_comp <- function(dat_struct=NULL,rep_struct=NULL,gen_year=-1
                 names(new_len_comp) <- names(true_len_comp)
 
                 # AIEEEEEE!!! magic numbers selected from the aether
-                nsamples <- floor(max(8,nlens)^1.65)
+                nsamples <- floor(max(8,nlens)^1.7)
 
                 for (i in 1:ngend)
                 {
                     # generate a multinomial sample
                     sum_len_comp <- sum(true_len_comp[i,])
-                    new_len_comp[i,] <- sum_len_comp * (rmultinom(1,nsamples,(true_len_comp[i,] / sum_len_comp)) / nsamples)
+                    if (sum_len_comp > 0)
+                    {
+                        new_len_comp[i,] <- sum_len_comp * (rmultinom(1,nsamples,(true_len_comp[i,] / sum_len_comp)) / nsamples)
+                    }
                 }
             } else {
                 new_len_comp <- true_len_comp
