@@ -44,13 +44,16 @@ sim_generate_age_comp <- function(dat_struct=NULL,rep_struct=NULL,gen_year=-1,ge
                 names(new_age_comp) <- names(true_age_comp)
 
                 # AIEEEEEE!!! magic numbers selected from the aether
-                nsamples <- floor(max(8,nages)^1.65)
+                nsamples <- floor(max(8,nages)^1.7)
 
                 for (i in 1:ngend)
                 {
                     # generate a multinomial sample
                     sum_age_comp <- sum(true_age_comp[i,])
-                    new_age_comp[i,] <- sum_age_comp * (rmultinom(1,nsamples,(true_age_comp[i,] / sum_age_comp)) / nsamples)
+                    if (sum_age_comp > 0)
+                    {
+                        new_age_comp[i,] <- sum_age_comp * (rmultinom(1,nsamples,(true_age_comp[i,] / sum_age_comp)) / nsamples)
+                    }
                 }
             } else {
                 new_age_comp <- true_age_comp
