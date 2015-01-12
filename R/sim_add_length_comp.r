@@ -29,6 +29,24 @@ sim_add_length_comp <- function(dat_struct=NULL,comp_year=-1,comp_seas=-1,comp_f
             # put both length comp vectors in one row if there are two sexes
             if (ngend == 2 && dim(comp_matrix)[1] == ngend)
             {
+                if (comp_gender == 0)
+                {
+                    # sum M and F into F vector
+                    comp_matrix[1,] <- comp_matrix[1,] + comp_matrix[2,]
+                } else
+                if (comp_gender == 1 || comp_gender == 2)
+                {
+                    # normalize each sex-specific vector
+                    for (s in 1:2)
+                    {
+                        comp_sum <- sum(comp_matrix[s,])
+                        if (comp_sum > 0)
+                        {
+                            comp_matrix[s,] <- comp_matrix[s,] / comp_sum
+                        }
+                    }
+                }
+
                 new_dat_struct$lencomp <- rbind(dat_struct$lencomp,c(comp_year,comp_seas,comp_fleet,comp_gender,comp_part,comp_Nsamp,as.vector(comp_matrix[1,]),as.vector(comp_matrix[2,])))
             } else {
                 new_dat_struct$lencomp <- rbind(dat_struct$lencomp,c(comp_year,comp_seas,comp_fleet,comp_gender,comp_part,comp_Nsamp,as.vector(comp_matrix[1,])))
