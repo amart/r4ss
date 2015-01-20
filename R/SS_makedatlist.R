@@ -197,4 +197,3 @@ SS_makedatlist <-
                         )
         return(datlist)
     }
-
