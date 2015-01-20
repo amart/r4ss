@@ -33,11 +33,6 @@ library(r4ss)
 
 ### Changes
 
-<<<<<<< HEAD
-```S
-devtools::install_github("amart/r4ss", ref="v1.22.1")
-````
-
 ### Testing
 
 Note on January 7th, 2015:
@@ -45,10 +40,9 @@ Please help test an experimental version of r4ss that will soon be merged into t
 =======
 Note on January 15th, 2015:
 A variety of changes that were in a branch on this GitHub site have now been merged into the main code. If anything doesn't work for you, you can install an earlier version using the command.
->>>>>>> 0cd3a9f8038ee7641644193b1ef48cae5076aaa8
 
 ```S
-devtools::install_github("r4ss/r4ss", ref="v1.22.1")
+devtools::install_github("amart/r4ss", ref="v1.22.1")
 ````
 
 Changes include
