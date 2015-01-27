@@ -28,15 +28,14 @@ where each
 element is a vector giving the parameter number for the random effect
 coefficients in that group of random effects. These "parameter numbers"
 correspond to the number of these parameters in the list of parameters in the
-"ss3.std" output file.}
+"ss3.cor" output file.}
 
 \item{PAR_num_Vec}{Vector giving the number in the "ss3.par" vector for each
 random effect coefficient.}
 
 \item{Int_Group_List}{List where each element is a vector, providing a way of
 grouping different random effect groups into a single category. This is not
-used (but input is still required) when \code{Version=1}. The default value
-will work fine generically when \code{Version=1}.}
+used (but input is still required) when \code{Version=1}.}
 
 \item{Version}{Integer (options are 1, 5, and 6) giving the type of Laplace
 Approximation. I recommend 1.}
@@ -66,6 +65,23 @@ This may be required when running R in Emacs on Windows. Default = FALSE.}
 \description{
 (Attempt to) perform the SS implementation of the Laplace Approximation
 from Thorson, Hicks and Methot (2014) ICES J. Mar. Sci.
+}
+\examples{
+\dontrun{
+    direc <- "C:/Models/LaplaceApprox/base"  #need the full path because wd is changed in function
+    if("Optimization_record.txt" \%in\% list.files(direc)) {
+         file.remove(file.path(direc,"Optimization_record.txt"))
+    }
+    Opt = optimize(f=NegLogInt_Fn,
+                   interval=c(0.001, 0.12),
+                   maximum=FALSE,
+                   File=direc,
+                   CTL_linenum_List=list(127:131),
+                   ESTPAR_num_List=list(86:205),
+                   Int_Group_List=1,
+                   PAR_num_Vec=NA,
+                   Version=1, Intern=TRUE)
+  }
 }
 \author{
 James Thorson
