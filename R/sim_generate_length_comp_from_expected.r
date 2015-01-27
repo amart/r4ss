@@ -54,7 +54,13 @@ sim_generate_length_comp_from_expected <- function(exp_dat_struct=NULL,exp_rep_s
                     sum_len_comp <- sum(true_len_comp[i,])
                     if (sum_len_comp > 0)
                     {
-                        new_len_comp[i,] <- sum_len_comp * (rmultinom(1,nsamples,(true_len_comp[i,] / sum_len_comp)) / nsamples)
+                        new_len_comp[i,] <- rmultinom(n=1,size=nsamples,prob=(true_len_comp[i,] / sum_len_comp)) / nsamples
+
+                        # normalize with respect to fraction male and female
+                        if (exp_lencomp$Gender == 3)
+                        {
+                            new_len_comp[i,] <- new_len_comp[i,] * sum_len_comp
+                        }
                     }
                 }
             } else {

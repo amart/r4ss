@@ -54,7 +54,13 @@ sim_generate_age_comp_from_expected <- function(exp_dat_struct=NULL,exp_rep_stru
                     sum_age_comp <- sum(true_age_comp[i,])
                     if (sum_age_comp > 0)
                     {
-                        new_age_comp[i,] <- sum_age_comp * (rmultinom(1,nsamples,(true_age_comp[i,] / sum_age_comp)) / nsamples)
+                        new_age_comp[i,] <- rmultinom(n=1,size=nsamples,prob=(true_age_comp[i,] / sum_age_comp)) / nsamples
+
+                        # normalize with respect to fraction male and female
+                        if (exp_agecomp$Gender == 3)
+                        {
+                            new_age_comp[i,] <- new_age_comp[i,] * sum_age_comp
+                        }
                     }
                 }
             } else {
