@@ -43,7 +43,7 @@ sim_generate_age_comp_from_expected <- function(exp_dat_struct=NULL,exp_rep_stru
 
             if (apply_error)
             {
-                new_age_comp <- data.frame(matrix(0,nrow=ngend,ncol=nbins,dimnames=list(c(),exp_dat_struct$agebin_vector)))
+                new_age_comp <- matrix(0,nrow=ngend,ncol=nbins,dimnames=list(c(),exp_dat_struct$agebin_vector))
 
                 # AIEEEEEE!!! magic numbers selected from the aether
                 nsamples <- floor(max(8,nbins)^1.75)
