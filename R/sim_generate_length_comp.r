@@ -29,22 +29,22 @@ sim_generate_length_comp <- function(dat_struct=NULL,rep_struct=NULL,gen_year=-1
         # check that the number of genders matches the number of rows
         if (dim(true_natlen)[1] == ngend && dim(true_lenselex)[1] == ngend)
         {
-            # the numbers-at-len values only
-            natlen   <- true_natlen
-
-            # the selectivity-at-len values only
-            lenselex <- true_lenselex
-
             # here they are, not normalized
-            true_len_comp <- natlen * lenselex
+            true_len_comp <- true_natlen * true_lenselex
+
+            # normalize
+            sum_len_comp <- sum(true_len_comp)
+            if (sum_len_comp > 0)
+            {
+                true_len_comp <- true_len_comp / sum_len_comp
+            }
 
             if (apply_error)
             {
                 new_len_comp <- data.frame(matrix(0,nrow=dim(true_len_comp)[1],ncol=dim(true_len_comp)[2]))
                 names(new_len_comp) <- names(true_len_comp)
 
-                # AIEEEEEE!!! magic numbers selected from the aether
-                nsamples <- floor(max(8,nlens)^1.7)
+                nsamples <- sim_calculate_nsamples(nlens)
 
                 for (i in 1:ngend)
                 {

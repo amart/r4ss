@@ -29,22 +29,22 @@ sim_generate_age_comp <- function(dat_struct=NULL,rep_struct=NULL,gen_year=-1,ge
         # check that the number of genders matches the number of rows
         if (dim(true_natage)[1] == ngend && dim(true_ageselex)[1] == ngend)
         {
-            # the numbers-at-age values only
-            natage   <- true_natage
-
-            # the selectivity-at-age values only
-            ageselex <- true_ageselex
-
             # here they are, not normalized
-            true_age_comp <- natage * ageselex
+            true_age_comp <- true_natage * true_ageselex
+
+            # normalize
+            sum_age_comp <- sum(true_age_comp)
+            if (sum_age_comp > 0)
+            {
+                true_age_comp <- true_age_comp / sum_age_comp
+            }
 
             if (apply_error)
             {
                 new_age_comp <- data.frame(matrix(0,nrow=dim(true_age_comp)[1],ncol=dim(true_age_comp)[2]))
                 names(new_age_comp) <- names(true_age_comp)
 
-                # AIEEEEEE!!! magic numbers selected from the aether
-                nsamples <- floor(max(8,nages)^1.7)
+                nsamples <- sim_calculate_nsamples(nages)
 
                 for (i in 1:ngend)
                 {
