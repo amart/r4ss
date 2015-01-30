@@ -45,6 +45,9 @@
 #' @param cexZ1 Character expansion (cex) for point associated with value of 1.
 #' @param bublegend Add legend with example bubble sizes to bubble plots.
 #' @param colvec Vector of length 3 with colors for females, males, unsexed fish
+#' @param linescol Color for lines on top of polygons
+#' @param axis1 position of bottom axis values
+#' @param axis2 position of left size axis values
 #' @param red What color to use for females in bubble plots (default is slightly
 #' transparent red)
 #' @param blue What color to use for males in bubble plots (default is slightly
@@ -104,7 +107,7 @@
 #' @seealso \code{\link{SS_plots}}, \code{\link{make_multifig}}
 #' @keywords hplot
 SSplotComps <-
-  function(replist, subplots=1:21, #subplots=1:13,
+  function(replist, subplots=c(1:21,24), #subplots=1:13,
            kind="LEN", sizemethod=1, aalyear=-1, aalbin=-1, plot=TRUE, print=FALSE,
            fleets="all", fleetnames="default", sexes="all",
            datonly=FALSE, samplesizeplots=TRUE, compresidplots=TRUE, bub=FALSE,
@@ -113,6 +116,8 @@ SSplotComps <-
            minnbubble=3, pntscalar=NULL,
            scalebubbles=FALSE,cexZ1=1.5,bublegend=TRUE,
            colvec=c(rgb(1,0,0,.7),rgb(0,0,1,.7),rgb(.1,.1,.1,.7)),
+           linescol=c(rgb(0,.5,0,.7),rgb(.8,0,0,.7),rgb(0,0,.8,.7)),
+           axis1=NULL,axis2=NULL,
            blue=rgb(0,0,1,0.7),red=rgb(1,0,0,0.7),
            pwidth=6.5, pheight=5.0, punits="in", ptsize=10, res=300,
            plotdir="default", cex.main=1, linepos=1, fitbar=FALSE,
@@ -179,7 +184,7 @@ SSplotComps <-
   ### subplot 22: by fleet aggregating across years within each season
   ### subplot 23: by fleet aggregating across seasons within a year
   ### subplot 24: bubble plot comparison of length or age residuals
-  ###             across fleets within gender/partition
+  ###             across fleets within partition
 
 
 
@@ -237,10 +242,10 @@ SSplotComps <-
 
   # sort out which sexes will be included, and associated labels
   if(sexes[1]=="all"){
-    sexes <- 0:2 # this can be used to subset stuff below
+    sexes <- 0:nsexes # this can be used to subset stuff below
   }
   if(nsexes==1){
-    sexes <- 0
+    sexes <- 0:nsexes
   }
   if(nsexes==1 | length(sexes)>1){
     # single-sex models, or models with all sexes shown
@@ -364,7 +369,9 @@ SSplotComps <-
     filenamestart <- "comp_WAAfit_"
     titledata <- "mean weight at age, "
   }
-  if(!(kind%in%c("LEN","SIZE","AGE","cond","GSTAGE","GSTLEN","L@A","W@A"))) stop("Input 'kind' to SSplotComps is not right.")
+  if(!(kind%in%c("LEN","SIZE","AGE","cond","GSTAGE","GSTLEN","L@A","W@A"))){
+    stop("Input 'kind' to SSplotComps is not right.")
+  }
 
   # Add asterix to indicate super periods and then remove rows labeled "skip".
   # It would be better to somehow show the range of years, but that seems difficult.
@@ -378,7 +385,6 @@ SSplotComps <-
 
   # subset data based on requested range of sexes
   dbase_kind <- dbase_kind[dbase_kind$sex %in% sexes,]
-
   # loop over fleets
   for(f in fleets){
     # check for the presence of data
@@ -463,7 +469,9 @@ SSplotComps <-
                             nlegends=3,legtext=list(dbase$YrSeasName,"sampsize","effN"),
                             main=ptitle,cex.main=cex.main,xlab=kindlab,ylab=labels[6],
                             maxrows=maxrows,maxcols=maxcols,rows=rows,cols=cols,
-                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,sexvec=sexvec,...)
+                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,
+                            colvec=colvec, linescol=linescol, axis1=axis1, axis2=axis2,
+                            sexvec=sexvec,...)
             }
             if(kind=="GSTAGE"){
               make_multifig(ptsx=dbase$Bin,ptsy=dbase$Obs,yr=dbase$Yr.S,linesx=dbase$Bin,linesy=dbase$Exp,
@@ -472,7 +480,9 @@ SSplotComps <-
                             nlegends=3,legtext=list(dbase$YrSeasName,"sampsize","effN"),
                             main=ptitle,cex.main=cex.main,xlab=kindlab,ylab=labels[6],
                             maxrows=maxrows,maxcols=maxcols,rows=rows,cols=cols,
-                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,sexvec=sexvec,...)
+                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,
+                            colvec=colvec, linescol=linescol, axis1=axis1, axis2=axis2,
+                            sexvec=sexvec,...)
             }
             if(kind=="GSTLEN"){
               make_multifig(ptsx=dbase$Bin,ptsy=dbase$Obs,yr=dbase$Yr.S,linesx=dbase$Bin,linesy=dbase$Exp,
@@ -481,7 +491,9 @@ SSplotComps <-
                             nlegends=3,legtext=list(dbase$YrSeasName,"sampsize","effN"),
                             main=ptitle,cex.main=cex.main,xlab=kindlab,ylab=labels[6],
                             maxrows=maxrows,maxcols=maxcols,rows=rows,cols=cols,
-                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,sexvec=sexvec,...)
+                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,
+                            colvec=colvec, linescol=linescol, axis1=axis1, axis2=axis2,
+                            sexvec=sexvec,...)
             }
             if(kind %in% c("L@A","W@A")){
               make_multifig(ptsx=dbase$Bin,ptsy=dbase$Obs,yr=dbase$Yr.S,linesx=dbase$Bin,linesy=dbase$Exp,
@@ -491,7 +503,9 @@ SSplotComps <-
                             bars=bars,linepos=(1-datonly)*linepos,
                             main=ptitle,cex.main=cex.main,xlab=kindlab,ylab=ifelse(kind=="W@A",labels[9],labels[1]),
                             maxrows=maxrows,maxcols=maxcols,rows=rows,cols=cols,
-                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,sexvec=sexvec,...)
+                            fixdims=fixdims,ipage=ipage,scalebins=scalebins,
+                            colvec=colvec, linescol=linescol, axis1=axis1, axis2=axis2,
+                            sexvec=sexvec,...)
             }
           } # end tempfun
 
@@ -647,7 +661,9 @@ SSplotComps <-
                           ptscol=cols,
                           ipage=ipage,scalebins=scalebins,
                           sampsizeline=sampsizeline,effNline=effNline,
-                          sampsizemean=MeanNage,effNmean=HarmEffNage,sexvec=sexvec,...)
+                          sampsizemean=MeanNage,effNmean=HarmEffNage,
+                          colvec=colvec, linescol=linescol, axis1=axis1, axis2=axis2,
+                          sexvec=sexvec,...)
           }
           if(plot) tempfun3(ipage=0,...)
           if(print){ # set up plotting to png file if required
