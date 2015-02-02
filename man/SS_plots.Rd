@@ -5,7 +5,7 @@
 \title{plot many quantities related to output from Stock Synthesis}
 \usage{
 SS_plots(replist = NULL, plot = 1:24, print = NULL, pdf = FALSE,
-  png = FALSE, html = png, printfolder = "plots", dir = "default",
+  png = TRUE, html = png, printfolder = "plots", dir = "default",
   fleets = "all", areas = "all", fleetnames = "default",
   fleetcols = "default", fleetlty = 1, fleetpch = 1, lwd = 1,
   areacols = "default", areanames = "default", verbose = TRUE,
@@ -17,8 +17,8 @@ SS_plots(replist = NULL, plot = 1:24, print = NULL, pdf = FALSE,
   aalyear = -1, aalbin = -1, aalresids = FALSE, maxneff = 5000,
   cohortlines = c(), smooth = TRUE, showsampsize = TRUE,
   showeffN = TRUE, sampsizeline = FALSE, effNline = FALSE,
-  showlegend = TRUE, pwidth = 7, pheight = 7, punits = "in",
-  ptsize = 12, res = 300, cex.main = 1, selexlines = 1:6, rows = 1,
+  showlegend = TRUE, pwidth = 6.5, pheight = 5, punits = "in",
+  ptsize = 10, res = 300, cex.main = 1, selexlines = 1:6, rows = 1,
   cols = 1, maxrows = 4, maxcols = 4, maxrows2 = 2, maxcols2 = 4,
   andrerows = 3, tagrows = 3, tagcols = 3, fixdims = TRUE, new = TRUE,
   SSplotDatMargin = 8, filenotes = NULL, catchasnumbers = NULL,
@@ -165,17 +165,17 @@ age-at-length plots (TRUE/FALSE, still in development)}
 
 \item{showlegend}{Display legends in various plots? Default=T.}
 
-\item{pwidth}{Default width of plots printed to files in units of
-\code{punits}. Default=7.}
+\item{pwidth}{Width of plots printed to files in units of
+\code{punits}. Default recently changed from 7 to 6.5.}
 
-\item{pheight}{Default height width of plots printed to files in units of
-\code{punits}. Default=7.}
+\item{pheight}{Height width of plots printed to files in units of
+\code{punits}. Default recently changed from 7 to 5.0}
 
 \item{punits}{Units for \code{pwidth} and \code{pheight}. Can be "px"
 (pixels), "in" (inches), "cm" or "mm". Default="in".}
 
 \item{ptsize}{Point size for plotted text in plots printed to files (see
-help("png") in R for details). Default=12.}
+help("png") in R for details). Default recently changed from 12 to 10.}
 
 \item{res}{Resolution of plots printed to files. Default=300.}
 

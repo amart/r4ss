@@ -4,7 +4,7 @@
 \alias{SSplotComps}
 \title{Plot composition data and fits.}
 \usage{
-SSplotComps(replist, subplots = 1:21, kind = "LEN", sizemethod = 1,
+SSplotComps(replist, subplots = c(1:21, 24), kind = "LEN", sizemethod = 1,
   aalyear = -1, aalbin = -1, plot = TRUE, print = FALSE,
   fleets = "all", fleetnames = "default", sexes = "all",
   datonly = FALSE, samplesizeplots = TRUE, compresidplots = TRUE,
@@ -12,10 +12,11 @@ SSplotComps(replist, subplots = 1:21, kind = "LEN", sizemethod = 1,
   sampsizeline = FALSE, effNline = FALSE, minnbubble = 3,
   pntscalar = NULL, scalebubbles = FALSE, cexZ1 = 1.5, bublegend = TRUE,
   colvec = c(rgb(1, 0, 0, 0.7), rgb(0, 0, 1, 0.7), rgb(0.1, 0.1, 0.1, 0.7)),
-  blue = rgb(0, 0, 1, 0.7), red = rgb(1, 0, 0, 0.7), pwidth = 7,
-  pheight = 7, punits = "in", ptsize = 12, res = 300,
-  plotdir = "default", cex.main = 1, linepos = 1, fitbar = FALSE,
-  do.sqrt = TRUE, smooth = TRUE, cohortlines = c(),
+  linescol = c(rgb(0, 0.5, 0, 0.7), rgb(0.8, 0, 0, 0.7), rgb(0, 0, 0.8, 0.7)),
+  axis1 = NULL, axis2 = NULL, blue = rgb(0, 0, 1, 0.7), red = rgb(1, 0,
+  0, 0.7), pwidth = 6.5, pheight = 5, punits = "in", ptsize = 10,
+  res = 300, plotdir = "default", cex.main = 1, linepos = 1,
+  fitbar = FALSE, do.sqrt = TRUE, smooth = TRUE, cohortlines = c(),
   labels = c("Length (cm)", "Age (yr)", "Year", "Observed sample size",
   "Effective sample size", "Proportion", "cm", "Frequency", "Weight", "Length",
   "(mt)", "(numbers x1000)", "Stdev (Age) (yr)", "Conditional AAL plot, "),
@@ -91,6 +92,12 @@ proportion within sample? Default=FALSE.}
 \item{bublegend}{Add legend with example bubble sizes to bubble plots.}
 
 \item{colvec}{Vector of length 3 with colors for females, males, unsexed fish}
+
+\item{linescol}{Color for lines on top of polygons}
+
+\item{axis1}{position of bottom axis values}
+
+\item{axis2}{position of left size axis values}
 
 \item{blue}{What color to use for males in bubble plots (default is slightly
 transparent blue)}

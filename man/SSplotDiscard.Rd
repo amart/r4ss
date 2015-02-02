@@ -7,8 +7,8 @@
 SSplotDiscard(replist, subplots = 1:2, plot = TRUE, print = FALSE,
   plotdir = "default", fleets = "all", fleetnames = "default",
   datplot = FALSE, labels = c("Year", "Discard fraction", "Total discards",
-  "for"), yhi = 1, col1 = "blue", col2 = "black", pwidth = 7,
-  pheight = 7, punits = "in", res = 300, ptsize = 12, cex.main = 1,
+  "for"), yhi = 1, col1 = "blue", col2 = "black", pwidth = 6.5,
+  pheight = 5, punits = "in", res = 300, ptsize = 10, cex.main = 1,
   verbose = TRUE)
 }
 \arguments{
@@ -41,9 +41,9 @@ regardless). Default = 1.}
 
 \item{col2}{Second color to use in plot (for observations and intervals)}
 
-\item{pwidth}{Width of plot written to PNG file}
+\item{pwidth}{Width of plot}
 
-\item{pheight}{Height of plot written to PNG file}
+\item{pheight}{Height of plot}
 
 \item{punits}{Units for PNG file}
 

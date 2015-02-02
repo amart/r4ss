@@ -5,8 +5,9 @@
 \title{Plot numbers-at-age related data and fits.}
 \usage{
 SSplotNumbers(replist, subplots = 1:9, plot = TRUE, print = FALSE,
-  areas = "all", areanames = "default", areacols = "default",
-  pntscalar = 2.6, bublegend = TRUE, period = c("B", "M"), add = FALSE,
+  numbers.unit = 1000, areas = "all", areanames = "default",
+  areacols = "default", pntscalar = 2.6, bub.bg = gray(0.5, alpha = 0.5),
+  bublegend = TRUE, period = c("B", "M"), add = FALSE,
   labels = c("Year", "Age", "True age (yr)", "SD of observed age (yr)",
   "Mean observed age (yr)", "Mean age (yr)", "mean age in the population",
   "Ageing imprecision", "Numbers at age at equilibrium",
@@ -15,8 +16,8 @@ SSplotNumbers(replist, subplots = 1:9, plot = TRUE, print = FALSE,
   "expected numbers at age", "Beginning of year", "Middle of year",
   "expected numbers at length",
   "Sex ratio of numbers at length (males/females)",
-  "Sex ratio of numbers at length (females/males)"), pwidth = 7,
-  pheight = 7, punits = "in", res = 300, ptsize = 12, cex.main = 1,
+  "Sex ratio of numbers at length (females/males)"), pwidth = 6.5,
+  pheight = 5, punits = "in", res = 300, ptsize = 10, cex.main = 1,
   plotdir = "default", verbose = TRUE)
 }
 \arguments{
@@ -27,6 +28,9 @@ SSplotNumbers(replist, subplots = 1:9, plot = TRUE, print = FALSE,
 \item{plot}{plot to active plot device?}
 
 \item{print}{print to PNG files?}
+
+\item{numbers.unit}{Units for numbers. Default (based on typical Stock Synthesis
+setup) is thousands (numbers.unit=1000).}
 
 \item{areas}{optional subset of areas to plot for spatial models}
 
@@ -39,6 +43,9 @@ independently based on this maximum size and the values plotted. Often some
 plots look better with one value and others with a larger or smaller value.
 Default=2.6}
 
+\item{bub.bg}{background color for bubbles
+(no control over black border at this time)}
+
 \item{bublegend}{Add legend with example bubble sizes?}
 
 \item{period}{indicator of whether to make plots using numbers at age just
@@ -49,15 +56,15 @@ with SSv3.11)}
 
 \item{labels}{vector of labels for plots (titles and axis labels)}
 
-\item{pwidth}{width of plot written to PNG file}
+\item{pwidth}{width of plot}
 
-\item{pheight}{height of plot written to PNG file}
+\item{pheight}{height of plot}
 
 \item{punits}{units for PNG file}
 
 \item{res}{resolution for PNG file}
 
-\item{ptsize}{ptsize for PNG file}
+\item{ptsize}{point size for PNG file}
 
 \item{cex.main}{character expansion for plot titles}
 

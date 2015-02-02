@@ -11,7 +11,7 @@ SSplotBiology(replist, plot = TRUE, print = FALSE, add = FALSE,
   "Mean weight (kg) in last year", "Spawning output",
   "Length (cm, middle of the year)", "Natural mortality", "Female weight (kg)",
   "Female length (cm)", "Fecundity", "Default fecundity label", "Year"),
-  pwidth = 7, pheight = 7, punits = "in", res = 300, ptsize = 12,
+  pwidth = 6.5, pheight = 5, punits = "in", res = 300, ptsize = 10,
   cex.main = 1, verbose = TRUE)
 }
 \arguments{
@@ -40,9 +40,9 @@ be the directory where the model was run.}
 
 \item{labels}{Vector of labels for plots (titles and axis labels)}
 
-\item{pwidth}{Width of plot written to PNG file}
+\item{pwidth}{Width of plot}
 
-\item{pheight}{Height of plot written to PNG file}
+\item{pheight}{Height of plot}
 
 \item{punits}{Units for PNG file}
 

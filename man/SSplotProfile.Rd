@@ -19,8 +19,8 @@ SSplotProfile(summaryoutput, plot = TRUE, print = FALSE, models = "all",
   sort.by.max.change = TRUE, col = "default", pch = "default", lty = 1,
   lty.total = 1, lwd = 2, lwd.total = 3, cex = 1, cex.total = 1.5,
   xlim = "default", ymax = "default", xaxs = "r", yaxs = "r",
-  type = "o", legend = TRUE, legendloc = "topright", pwidth = 7,
-  pheight = 7, punits = "in", res = 300, ptsize = 12, cex.main = 1,
+  type = "o", legend = TRUE, legendloc = "topright", pwidth = 6.5,
+  pheight = 5, punits = "in", res = 300, ptsize = 10, cex.main = 1,
   plotdir = NULL, verbose = TRUE)
 }
 \arguments{
@@ -96,9 +96,9 @@ plotted.}
 
 \item{legendloc}{Location of legend (see ?legend for more info).}
 
-\item{pwidth}{Width of plot written to PNG file}
+\item{pwidth}{Width of plot}
 
-\item{pheight}{Height of plot written to PNG file}
+\item{pheight}{Height of plot}
 
 \item{punits}{Units for PNG file}
 

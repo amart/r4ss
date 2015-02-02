@@ -9,10 +9,11 @@ SSplotPars(dir = "c:/path/", repfile = "Report.sso",
   showpost = TRUE, showprior = TRUE, showmle = TRUE, showinit = TRUE,
   showrecdev = TRUE, priorinit = TRUE, priorfinal = TRUE,
   showlegend = TRUE, fitrange = FALSE, xaxs = "i", xlim = NULL,
-  ylim = NULL, verbose = TRUE, nrows = 3, ncols = 3, new = TRUE,
-  pdf = FALSE, pwidth = 7, pheight = 7, punits = "in", ptsize = 12,
-  returntable = FALSE, strings = c(), exact = FALSE, newheaders = NULL,
-  burn = 0, thin = 1, ctlfile = "control.ss_new")
+  ylim = NULL, verbose = TRUE, nrows = 3, ncols = 3, ltyvec = c(1, 1,
+  3, 4), colvec = c("blue", "red", "black", "gray60", rgb(0, 0, 0, 0.5)),
+  new = TRUE, pdf = FALSE, pwidth = 6.5, pheight = 5, punits = "in",
+  ptsize = 10, returntable = FALSE, strings = c(), exact = FALSE,
+  newheaders = NULL, burn = 0, thin = 1, ctlfile = "control.ss_new")
 }
 \arguments{
 \item{dir}{Directory where all files are located.}

@@ -83,15 +83,15 @@ different years)}
 
 \item{legendloc}{location of legend. See ?legend for more info.}
 
-\item{pwidth}{width of plot written to PNG file}
+\item{pwidth}{width of plot}
 
-\item{pheight}{height of plot written to PNG file}
+\item{pheight}{height of plot}
 
 \item{punits}{units for PNG file}
 
 \item{res}{resolution for PNG file}
 
-\item{ptsize}{ptsize for PNG file}
+\item{ptsize}{point size for PNG file}
 
 \item{cex.main}{character expansion for plot titles}
 

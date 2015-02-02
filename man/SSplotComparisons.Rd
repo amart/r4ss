@@ -11,15 +11,15 @@ SSplotComparisons(summaryoutput, subplots = 1:20, plot = TRUE,
   indexPlotEach = FALSE, labels = c("Year", "Spawning biomass (mt)",
   "Relative spawning biomass", "Age-0 recruits (1,000s)",
   "Recruitment deviations", "Index", "Log index", "SPR ratio", "Density",
-  "Management target", "Minimum stock size threshold", "Spawning output (eggs)",
+  "Management target", "Minimum stock size threshold", "Spawning output",
   "Harvest rate"), col = "default", shadecol = "default", pch = "default",
   lty = 1, lwd = 2, spacepoints = 10, staggerpoints = 1,
   xlim = "default", ylimAdj = 1, xaxs = "r", yaxs = "r", type = "o",
   uncertainty = TRUE, shadealpha = 0.1, legend = TRUE,
   legendlabels = "default", legendloc = "topright",
   legendorder = "default", legendncol = 1, sprtarg = NULL, btarg = NULL,
-  minbthresh = NULL, pwidth = 7, pheight = 7, punits = "in",
-  res = 300, ptsize = 12, cex.main = 1, plotdir = NULL,
+  minbthresh = NULL, pwidth = 6.5, pheight = 5, punits = "in",
+  res = 300, ptsize = 10, cex.main = 1, plotdir = NULL,
   densitynames = c("SPB_Virgin", "R0"), densityxlabs = "default",
   densityscalex = 1, densityscaley = 1, densityadjust = 1,
   densitysymbols = TRUE, densitytails = TRUE, densitylwd = 1,
@@ -133,9 +133,9 @@ remove)}
 \item{minbthresh}{Minimum biomass threshhold at which to show a line (set to
 0 to remove)}
 
-\item{pwidth}{Width of plot written to PNG file}
+\item{pwidth}{Width of plot}
 
-\item{pheight}{Height of plot written to PNG file}
+\item{pheight}{Height of plot}
 
 \item{punits}{Units for PNG file}
 

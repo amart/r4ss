@@ -7,8 +7,8 @@
 SSplotMovementRates(replist, plot = TRUE, print = FALSE, subplots = 1:2,
   plotdir = "default", colvec = "default", ylim = "default",
   legend = TRUE, legendloc = "topleft", moveseas = "all",
-  min.move.age = 0.5, pwidth = 7, pheight = 7, punits = "in",
-  res = 300, ptsize = 12, cex.main = 1, verbose = TRUE)
+  min.move.age = 0.5, pwidth = 6.5, pheight = 5, punits = "in",
+  res = 300, ptsize = 10, cex.main = 1, verbose = TRUE)
 }
 \arguments{
 \item{replist}{list created by \code{\link{SS_output}}}
@@ -36,15 +36,15 @@ areas?}
 
 \item{min.move.age}{Minimum age of movement (in future will come from Report file)}
 
-\item{pwidth}{width of plot written to PNG file}
+\item{pwidth}{width of plot}
 
-\item{pheight}{height of plot written to PNG file}
+\item{pheight}{height of plot}
 
 \item{punits}{units for PNG file}
 
 \item{res}{resolution for PNG file}
 
-\item{ptsize}{ptsize for PNG file}
+\item{ptsize}{point size for PNG file}
 
 \item{cex.main}{Character expansion parameter for plot titles}
 

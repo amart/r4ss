@@ -8,8 +8,8 @@ SSplotMnwt(replist, subplots = 1:2, ymax = NULL, plot = TRUE,
   print = FALSE, fleets = "all", fleetnames = "default",
   datplot = FALSE, labels = c("Year", "discard", "retained catch",
   "whole catch", "Mean individual body weight (kg)", "Mean weight in", "for"),
-  col1 = "blue", col2 = "black", pwidth = 7, pheight = 7,
-  punits = "in", res = 300, ptsize = 12, cex.main = 1,
+  col1 = "blue", col2 = "black", pwidth = 6.5, pheight = 5,
+  punits = "in", res = 300, ptsize = 10, cex.main = 1,
   plotdir = "default", verbose = TRUE)
 }
 \arguments{
@@ -38,15 +38,15 @@ of \code{subplots}.}
 
 \item{col2}{second color to use in plot (for observations and intervals)}
 
-\item{pwidth}{width of plot written to PNG file}
+\item{pwidth}{width of plot}
 
-\item{pheight}{height of plot written to PNG file}
+\item{pheight}{height of plot}
 
 \item{punits}{units for PNG file}
 
 \item{res}{resolution for PNG file}
 
-\item{ptsize}{ptsize for PNG file}
+\item{ptsize}{point size for PNG file}
 
 \item{cex.main}{character expansion for plot titles}
 

@@ -7,8 +7,8 @@
 SS_fitbiasramp(replist, verbose = FALSE, startvalues = NULL,
   method = "BFGS", twoplots = TRUE, transform = FALSE, plot = TRUE,
   print = FALSE, plotdir = "default", shownew = TRUE, oldctl = NULL,
-  newctl = NULL, altmethod = "nlminb", pwidth = 7, pheight = 7,
-  punits = "in", ptsize = 12, res = 300, cex.main = 1)
+  newctl = NULL, altmethod = "nlminb", pwidth = 6.5, pheight = 5,
+  punits = "in", ptsize = 10, res = 300, cex.main = 1)
 }
 \arguments{
 \item{replist}{Object created using \code{\link{SS_output}}}

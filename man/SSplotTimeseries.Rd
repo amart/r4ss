@@ -9,8 +9,8 @@ SSplotTimeseries(replist, subplot, add = FALSE, areas = "all",
   uncertainty = TRUE, bioscale = "default", minyr = NULL, maxyr = NULL,
   plot = TRUE, print = FALSE, plotdir = "default", verbose = TRUE,
   btarg = "default", minbthresh = "default", xlab = "Year",
-  labels = NULL, pwidth = 7, pheight = 7, punits = "in", res = 300,
-  ptsize = 12, cex.main = 1)
+  labels = NULL, pwidth = 6.5, pheight = 5, punits = "in", res = 300,
+  ptsize = 10, cex.main = 1)
 }
 \arguments{
 \item{replist}{list created by \code{SS_output}}
@@ -58,15 +58,15 @@ output is 0.25 in which case minbthresh = 0.125 (U.S. west coast flatfish).}
 
 \item{labels}{vector of labels for plots (titles and axis labels)}
 
-\item{pwidth}{width of plot written to PNG file}
+\item{pwidth}{width of plot}
 
-\item{pheight}{height of plot written to PNG file}
+\item{pheight}{height of plot}
 
 \item{punits}{units for PNG file}
 
 \item{res}{resolution for PNG file}
 
-\item{ptsize}{ptsize for PNG file}
+\item{ptsize}{point size for PNG file}
 
 \item{cex.main}{character expansion for plot titles}
 }

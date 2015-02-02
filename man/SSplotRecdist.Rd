@@ -7,8 +7,8 @@
 SSplotRecdist(replist, plot = TRUE, print = FALSE, areanames = NULL,
   seasnames = NULL, xlab = "", ylab = "",
   main = "Distribution of recruitment by area and season",
-  plotdir = "default", pwidth = 7, pheight = 7, punits = "in",
-  res = 300, ptsize = 12, cex.main = 1, verbose = TRUE)
+  plotdir = "default", pwidth = 6.5, pheight = 5, punits = "in",
+  res = 300, ptsize = 10, cex.main = 1, verbose = TRUE)
 }
 \arguments{
 \item{replist}{list created by \code{SS_output}}
@@ -32,15 +32,15 @@ enough)}
 \item{plotdir}{directory where PNG files will be written. by default it will
 be the directory where the model was run.}
 
-\item{pwidth}{width of plot written to PNG file}
+\item{pwidth}{width of plot}
 
-\item{pheight}{height of plot written to PNG file}
+\item{pheight}{height of plot}
 
 \item{punits}{units for PNG file}
 
 \item{res}{resolution for PNG file}
 
-\item{ptsize}{ptsize for PNG file}
+\item{ptsize}{point size for PNG file}
 
 \item{cex.main}{character expansion for plot titles}
 

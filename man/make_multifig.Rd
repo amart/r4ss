@@ -11,16 +11,16 @@ make_multifig(ptsx, ptsy, yr, linesx = 0, linesy = 0, ptsSD = 0,
   size = 1, cexZ1 = 1.5, bublegend = TRUE, maxsize = NULL,
   do.sqrt = TRUE, minnbubble = 8, allopen = TRUE, horiz_lab = "default",
   xbuffer = c(0.1, 0.1), ybuffer = c(0, 0.15), ymin0 = TRUE,
-  axis1 = "default", axis2 = "default", linepos = 1, type = "o",
-  bars = FALSE, barwidth = "default", ptscex = 1, ptscol = 1,
-  ptscol2 = 1, colvec = c(rgb(1, 0, 0, 0.7), rgb(0, 0, 1, 0.7), rgb(0.1,
-  0.1, 0.1, 0.7)), linescol = c("green3", 2, 4), lty = 1, lwd = 2,
-  pch = 1, nlegends = 3, legtext = list("yr", "sampsize", "effN"),
-  legx = "default", legy = "default", legadjx = "default",
-  legadjy = "default", legsize = c(1.2, 1), legfont = c(2, 1),
-  venusmars = TRUE, sampsizeline = FALSE, effNline = FALSE,
-  sampsizemean = NULL, effNmean = NULL, ipage = 0, scalebins = FALSE,
-  sexvec = NULL, ...)
+  axis1 = NULL, axis2 = NULL, linepos = 1, type = "o", bars = FALSE,
+  barwidth = "default", ptscex = 1, ptscol = 1, ptscol2 = 1,
+  colvec = c(rgb(1, 0, 0, 0.7), rgb(0, 0, 1, 0.7), rgb(0.1, 0.1, 0.1, 0.7)),
+  linescol = c(rgb(0, 0.8, 0, 0.7), rgb(1, 0, 0, 0.7), rgb(0, 0, 1, 0.7)),
+  lty = 1, lwd = 2, pch = 1, nlegends = 3, legtext = list("yr",
+  "sampsize", "effN"), legx = "default", legy = "default",
+  legadjx = "default", legadjy = "default", legsize = c(1.2, 1),
+  legfont = c(2, 1), venusmars = TRUE, sampsizeline = FALSE,
+  effNline = FALSE, sampsizemean = NULL, effNmean = NULL, ipage = 0,
+  scalebins = FALSE, sexvec = NULL, ...)
 }
 \arguments{
 \item{ptsx}{vector of x values for points or bars}

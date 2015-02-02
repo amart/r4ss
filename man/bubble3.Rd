@@ -5,10 +5,10 @@
 \title{Create a bubble plot.}
 \usage{
 bubble3(x, y, z, col = 1, cexZ1 = 5, maxsize = NULL, do.sqrt = TRUE,
-  legend = TRUE, legendloc = "top", legend.z = "default",
-  legend.yadj = 1.1, main = "", cex.main = 1, xlab = "", ylab = "",
-  minnbubble = 3, xlim = NULL, ylim = NULL, axis1 = TRUE,
-  xlimextra = 1, add = FALSE, las = 1, allopen = TRUE)
+  bg.open = gray(0.95, 0.5), legend = TRUE, legendloc = "top",
+  legend.z = "default", legend.yadj = 1.1, main = "", cex.main = 1,
+  xlab = "", ylab = "", minnbubble = 3, xlim = NULL, ylim = NULL,
+  axis1 = TRUE, xlimextra = 1, add = FALSE, las = 1, allopen = TRUE)
 }
 \arguments{
 \item{x}{Vector of x-values.}
@@ -26,6 +26,8 @@ factor for a bubble with z=1 (see \code{cexZ1} above).}
 
 \item{do.sqrt}{Should size be based on the area? (Diameter proportional to
 sqrt(z)). Default=TRUE.}
+
+\item{bg.open}{background color for open bubbles (border will equal 'col')}
 
 \item{legend}{Add a legend to the plot?}
 
