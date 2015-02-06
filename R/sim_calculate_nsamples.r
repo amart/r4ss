@@ -13,7 +13,7 @@ sim_calculate_nsamples <- function(num_bins=-1)
     if (num_bins > 0)
     {
         # AIEEEEEE!!! magic numbers selected from the aether
-        num_samples <- floor(max(8,num_bins)^1.75)
+        num_samples <- floor(max(8,num_bins)^1.7)
     }
 
     return(num_samples)
