@@ -23,6 +23,7 @@
 #' alternative to \code{labelyears}).
 #' @param leg.ncols Number of columns for the legend.
 #' @author Ian Taylor
+#' @export
 #' @seealso \code{\link{SSsummarize}}
 #' @references Ianelli et al. (2011) Assessment of the walleye pollock stock in
 #' the Eastern Bering Sea.
@@ -114,7 +115,9 @@ SSplotRetroRecruits <-
   #print(cbind(colvec,colvec.txt))
 
   ylab <- ifelse(devs,labels[1],labels[2])
-  if(relative) ylab <- paste(ylab,labels[3])
+  if(relative){
+    ylab <- paste(ylab,labels[3])
+  }
   
   maxage <- max(endyrvec)-min(cohorts)
   xlim <- c(0,maxage)
@@ -123,12 +126,12 @@ SSplotRetroRecruits <-
   # determine y-limits
   if(is.null(ylim)){
     if(uncertainty){
-      ylim <- c(min(recvalsLower[,1:n]),max(recvalsUpper[,1:n]))
+      ylim <- c(min(recvalsLower[,1:n],na.rm=TRUE),max(recvalsUpper[,1:n],na.rm=TRUE))
     }else{
       ylim <- c(min(recvals[,1:n],na.rm=TRUE),max(recvals[,1:n],na.rm=TRUE))
     }
     if(devs){
-      ylim <- c(-1,1)*ceiling(1.1*max(abs(ylim))) # make symmetric for devs
+      ylim <- c(-1,1)*1.1*max(abs(ylim)) # make symmetric for devs
     }else{
       if(relative){
         ylim <- c(-1.0*max(ylim),1.0*max(ylim)) # include 0 for recruitments
@@ -139,10 +142,12 @@ SSplotRetroRecruits <-
     ylim <- ylim/scale
   }
   yticks <- NULL
-  if(devs) yticks <- ylim[1]:ylim[2]
+  if(devs){
+    yticks <- floor(ylim[1]):ceiling(ylim[2])
+  }
 
   # make empty plot with axes
-  plot(0,type='n',xlim=xlim,ylim=ylim,xlab=labels[3],
+  plot(0,type='n',xlim=xlim,ylim=ylim,xlab=labels[4],
        ylab=ylab,main=main,axes=FALSE)
   axis(1,at=0:maxage)
   axis(2,at=yticks,las=1)
@@ -172,6 +177,8 @@ SSplotRetroRecruits <-
       recvalsUpper[,imodel] <- upper[match(recvalsUpper$Label,mcmclabs)]
     }
   }
+
+  outputTable <- NULL
   
   for(iy in 1:length(cohorts)){
     y <- cohorts[iy]
@@ -198,8 +205,8 @@ SSplotRetroRecruits <-
 
     goodmodels <- (1:n)[endyrvec-y>=0]
     # which of the values is the final and initial
-    final <- which(endyrvec==max(endyrvec[goodmodels]))
-    initial <- which(endyrvec==min(endyrvec[goodmodels]))
+    final <- which(endyrvec==max(endyrvec[goodmodels], na.rm=TRUE))
+    initial <- which(endyrvec==min(endyrvec[goodmodels], na.rm=TRUE))
     if(relative){
       #relative to final estimate
       if(uncertainty){
@@ -209,6 +216,11 @@ SSplotRetroRecruits <-
                 upper=cohortvalsUpper[goodmodels] - cohortvals[final],
                 shadecol=shadecolvec[iy],col=colvec[iy])
       }
+      # output the points that were plotted
+      outputTable <- rbind(outputTable,
+                           data.frame(cohort=y,
+                                      age=endyrvec[goodmodels] - y,
+                                      yval=cohortvals[goodmodels] - cohortvals[final]))
       # line with estimates
       lines(endyrvec[goodmodels] - y,
             cohortvals[goodmodels] - cohortvals[final],
@@ -228,6 +240,12 @@ SSplotRetroRecruits <-
                 upper=cohortvalsUpper[goodmodels],
                 shadecol=shadecolvec[iy],col=colvec[iy])
       }
+      # output the points that were plotted
+      outputTable <- rbind(outputTable,
+                           data.frame(cohort=y,
+                                      age=endyrvec[goodmodels] - y,
+                                      yval=cohortvals[goodmodels]))
+      # line with estimates
       lines(endyrvec[goodmodels] - y,
             cohortvals[goodmodels],
             type='o',col=colvec[iy],lwd=3,pch=16)
@@ -244,4 +262,5 @@ SSplotRetroRecruits <-
   if(legend) legend('topright',lwd=3,lty=1,pch=16,col=colvec,legend=cohorts,
                     title='Cohort birth year',ncol=leg.ncols,
                     bg=rgb(1,1,1,.3),box.col=NA)
+  return(invisible(outputTable))
 }
