@@ -4,10 +4,10 @@
 \alias{SS_changepars}
 \title{Change parameters, bounds, or phases in the control file.}
 \usage{
-SS_changepars(dir = "C:/myfiles/mymodels/myrun/",
-  ctlfile = "control.ss_new", newctlfile = "control_modified.ss",
-  linenums = NULL, strings = NULL, newvals = NULL, repeat.vals = FALSE,
-  newlos = NULL, newhis = NULL, estimate = FALSE, verbose = TRUE)
+SS_changepars(dir = NULL, ctlfile = "control.ss_new",
+  newctlfile = "control_modified.ss", linenums = NULL, strings = NULL,
+  newvals = NULL, repeat.vals = FALSE, newlos = NULL, newhis = NULL,
+  estimate = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{dir}{Directory with control file to change.}

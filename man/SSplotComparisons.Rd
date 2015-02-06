@@ -12,19 +12,18 @@ SSplotComparisons(summaryoutput, subplots = 1:20, plot = TRUE,
   "Relative spawning biomass", "Age-0 recruits (1,000s)",
   "Recruitment deviations", "Index", "Log index", "SPR ratio", "Density",
   "Management target", "Minimum stock size threshold", "Spawning output",
-  "Harvest rate"), col = "default", shadecol = "default", pch = "default",
-  lty = 1, lwd = 2, spacepoints = 10, staggerpoints = 1,
-  xlim = "default", ylimAdj = 1, xaxs = "r", yaxs = "r", type = "o",
-  uncertainty = TRUE, shadealpha = 0.1, legend = TRUE,
-  legendlabels = "default", legendloc = "topright",
-  legendorder = "default", legendncol = 1, sprtarg = NULL, btarg = NULL,
-  minbthresh = NULL, pwidth = 6.5, pheight = 5, punits = "in",
-  res = 300, ptsize = 10, cex.main = 1, plotdir = NULL,
-  densitynames = c("SPB_Virgin", "R0"), densityxlabs = "default",
-  densityscalex = 1, densityscaley = 1, densityadjust = 1,
-  densitysymbols = TRUE, densitytails = TRUE, densitylwd = 1,
-  fix0 = TRUE, new = TRUE, add = FALSE, par = list(mar = c(5, 4, 1, 1) +
-  0.1), verbose = TRUE, mcmcVec = "default")
+  "Harvest rate"), col = NULL, shadecol = NULL, pch = NULL, lty = 1,
+  lwd = 2, spacepoints = 10, staggerpoints = 1, xlim = "default",
+  ylimAdj = 1, xaxs = "r", yaxs = "r", type = "o", uncertainty = TRUE,
+  shadealpha = 0.1, legend = TRUE, legendlabels = "default",
+  legendloc = "topright", legendorder = "default", legendncol = 1,
+  sprtarg = NULL, btarg = NULL, minbthresh = NULL, pwidth = 6.5,
+  pheight = 5, punits = "in", res = 300, ptsize = 10, cex.main = 1,
+  plotdir = NULL, densitynames = c("SPB_Virgin", "R0"),
+  densityxlabs = "default", densityscalex = 1, densityscaley = 1,
+  densityadjust = 1, densitysymbols = TRUE, densitytails = TRUE,
+  densitylwd = 1, fix0 = TRUE, new = TRUE, add = FALSE, par = list(mar
+  = c(5, 4, 1, 1) + 0.1), verbose = TRUE, mcmcVec = "default")
 }
 \arguments{
 \item{summaryoutput}{List created by \code{SSsummarize}}
@@ -72,11 +71,11 @@ colors, or FALSE just plots observed once in black dots.}
 
 \item{labels}{Vector of labels for plots (titles and axis labels)}
 
-\item{col}{Optional vector of colors to be used for lines. Input 'default'
+\item{col}{Optional vector of colors to be used for lines. Input NULL
 makes use of \code{rich.colors.short} function.}
 
 \item{shadecol}{Optional vector of colors to be used for shading uncertainty
-intervals. Input 'default' makes use of \code{rich.colors.short} function
+intervals. Input NULL makes use of \code{rich.colors.short} function
 with alpha transparency.}
 
 \item{pch}{Optional vector of plot character values}
