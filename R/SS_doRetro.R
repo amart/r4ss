@@ -22,7 +22,11 @@
 #' saving to a file).
 #' @param CallType Either "system" or "shell" (choice depends on how you're running
 #' R. Default is "system".
-#' @author Ian Taylor
+#' @param RemoveBlocks Logical switch determining whether specifications of
+#' blocks is removed from top of control file. Blocks can cause problems for
+#' retrospective analyses, but the method for removing them is overly
+#' simplistic and probably won't work in most cases. Default=FALSE.
+#' @author Ian Taylor, Jim Thorson
 #' @export
 #' @seealso \code{\link{SSgetoutput}}
 #' @keywords data manip
@@ -43,7 +47,8 @@
 #' 
 SS_doRetro <- function(masterdir, oldsubdir, newsubdir='retrospectives',
                        subdirstart='retro',years=0:-5,overwrite=TRUE,
-                       extras="-nox",intern=FALSE,CallType="system"){
+                       extras="-nox",intern=FALSE,CallType="system",
+                       RemoveBlocks=FALSE){
 
   # save working directory
   oldwd <- getwd()
@@ -98,8 +103,10 @@ SS_doRetro <- function(masterdir, oldsubdir, newsubdir='retrospectives',
     ## # someday the code could be expanded to fix data file if it has blocks
     ## ctl <- SS_parlines(ctlfile) # doesn't currently read columns with block info
     ctl <- readLines(ctlfile)
-    ctl[grep('block designs',ctl)] <- "0 # Number of block designs for time varying parameters"
-    ctl[grep('blocks per design',ctl)+0:2] <- "# blocks deleted"
+    if(RemoveBlocks==TRUE){
+      ctl[grep('block designs',ctl)] <- "0 # Number of block designs for time varying parameters"
+      ctl[grep('blocks per design',ctl)+0:2] <- "# blocks deleted"
+    }
     file.remove(ctlfile)
     writeLines(ctl, ctlfile)
     
