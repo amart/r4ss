@@ -697,8 +697,9 @@ SS_output <-
   stats$SS_version <- SS_version
   stats$SS_versionshort <- SS_versionshort
 
-  stats$Run_time <- paste(as.character(matchfun2("StartTime",0,"StartTime",0,cols=1:6)),collapse=" ")
-
+  stats$StartTime <- paste(as.character(matchfun2("StartTime",0,"StartTime",0,cols=1:6)),collapse=" ")
+  stats$RunTime <- paste(as.character(matchfun2("StartTime",2,"StartTime",2,cols=4:9)),collapse=" ")
+  
   tempfiles  <- as.data.frame(rawrep[4:5,1:2],row.names = NULL)
   tempfiles <- matchfun2("Data_File",0,"Control_File",0,cols=1:2)
   stats$Files_used <- paste(c(tempfiles[1,],tempfiles[2,]),collapse=" ")
@@ -986,7 +987,8 @@ SS_output <-
   stats$maximum_gradient_component <- as.numeric(matchfun2("Convergence_Level",0,"Convergence_Level",0,cols=2))
 
   # sigma_R
-  if(SS_versionNumeric >= 3.3 | substring(SS_version,1,9)=="SS-V3.24U"){
+  if(SS_versionNumeric >= 3.3 |
+     substring(SS_version,1,9) %in% c("SS-V3.24U", "SS-V3.24V")){
     last_row_index <- 11
   }else{
     last_row_index <- 10
