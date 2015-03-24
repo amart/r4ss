@@ -54,9 +54,18 @@
 ##' be the directory where the model was run.
 ##' @param verbose Return updates of function progress to the R GUI? (Doesn't do
 ##' anything yet.)
+##' @param fleetgroups Optional character vector, with length equal to
+##' the number of declared fleets, where fleets with the same value are
+##' aggregated
+##' @param likelihood_type choice of "raw" or "raw_times_lambda" (the default)
+##' determines whether or not likelihoods plotted are adjusted by lambdas
+##' (likelihood weights)
+##' @param minfraction Minimum change in likelihood (over range considered) as a
+##' fraction of change in total likelihood for a component to be included in the
+##' figure.
 ##' @references Kevin Piner says that he's not the originator of this idea so
 ##' Athol Whitten is going to add a reference here.
-##' @author Ian Taylor, Kevin Piner
+##' @author Ian Taylor, Kevin Piner, Jim Thorson
 ##' @export
 PinerPlot <-
   function(summaryoutput,
@@ -81,17 +90,20 @@ PinerPlot <-
            legend=TRUE, legendloc="topright",
            pwidth=6.5,pheight=5.0,punits="in",res=300,ptsize=10,cex.main=1,
            plotdir=NULL,
-           verbose=TRUE)
+           verbose=TRUE,
+           fleetgroups=NULL,
+           likelihood_type="raw_times_lambda",
+           minfraction=0.01)
 {
   # this function is very similar to SSplotProfile, but shows fleet-specific likelihoods
   # for a single components rather than multiple components aggregated across fleets
-  
+
   # subfunction to write png files
   pngfun <- function(file){
     png(filename=paste(plotdir,file,sep="/"),width=pwidth,height=pheight,
         units=punits,res=res,pointsize=ptsize)
   }
-  
+
   if(print & is.null(plotdir)) stop("to print PNG files, you must supply a directory as 'plotdir'")
 
   # get stuff from summary output
@@ -105,10 +117,21 @@ PinerPlot <-
   pars <- summaryoutput$pars
   FleetNames     <- summaryoutput$FleetNames[[1]]
 
+  # Aggregate by input fleetgroups (a character vector, where two fleets with the same value are aggregated)
+  if( !is.null(fleetgroups) ){
+    if( length(fleetgroups)!=nfleets ) stop("fleetgroups, if specified, must have length equal to the number of declared fleets")
+    FleetNames <- unique(fleetgroups)
+    lbf_new <- data.frame( matrix(nrow=nrow(lbf),ncol=3+length(unique(fleetgroups)),dimnames=list(rownames(lbf),c(colnames(lbf)[1:3],unique(fleetgroups)))) )
+    lbf_new[,1:3] <- lbf[,1:3]
+    for(rowI in 1:nrow(lbf)) lbf_new[rowI,-c(1:3)] <- tapply( as.numeric(lbf[rowI,-c(1:3)]), FUN=sum, INDEX=as.numeric(factor(fleetgroups,levels=unique(fleetgroups))))
+    lbf <- lbf_new
+    nfleets <- ncol(lbf)-3
+  }
+
   if(!component %in% lbf$Label) stop("input 'component' needs to be one of the following\n",
                                      paste("    ",unique(lbf$Label),"\n"))
 
-  
+
   if(fleetnames[1]=="default") fleetnames <- FleetNames # note lower-case value is the one used below (either equal to vector from replist, or input by user)
 
   # check number of models to be plotted
@@ -125,7 +148,7 @@ PinerPlot <-
     if(!all(fleets %in% 1:nfleets))
       stop("Input 'fleets' should be a vector of values from 1 to nfleets=",nfleets," (for your inputs).\n")
   }
-  
+
   # find the parameter that the profile was over
   parnumber <- grep(profile.string,pars$Label)
   if(length(parnumber)<=0) stop("No parameters matching profile.string='",profile.string,"'",sep="")
@@ -140,19 +163,32 @@ PinerPlot <-
   if(xlim[1]=="default") xlim <- range(parvec)
 
   # rearange likelihoods to be in columns by type
-  prof.table <- lbf[lbf$model %in% models & lbf$Label==component, ]
-
+  if(likelihood_type=="raw") prof.table <- lbf[which(lbf$model %in% models & lbf$Label==component), ]
+  if(likelihood_type=="raw_times_lambda"){
+    prof.table <- lbf[which(lbf$model %in% models & lbf$Label==component), ]
+    prof.table[,-c(1:3)] <- prof.table[,-c(1:3)] * lbf[which(lbf$model %in% models & lbf$Label==component)-1, ][,-c(1:3)]
+  }
   # subtract minimum value from each likelihood component (over requested parameter range)
   subset <- parvec >= xlim[1] & parvec <= xlim[2]
-
   for(icol in 3:ncol(prof.table)){
-    prof.table[,icol] <- prof.table[,icol] - min(prof.table[subset,icol])
+    prof.table[,icol] <- prof.table[,icol] -
+      min(prof.table[subset,icol], na.rm=TRUE)
   }
-  
+  # remove columns that have change less than minfraction change relative to total
+  column.max <- apply(prof.table[,-c(1:2)],2,max)
+  change.fraction <- column.max / column.max[1]
+  include <- change.fraction >= minfraction
+  cat("\nLikelihood components showing max change as fraction of total change.\n",
+     "To change which components are included, change input 'minfraction'.\n\n",sep="")
+  print(data.frame(frac_change=round(change.fraction,4),include=include))
+
   # subset values and reorder values
   prof.table <- prof.table[order(parvec),]
-  nfleets <- ncol(prof.table)-3
-  prof.table <- prof.table[,c(1:3,3+(1:nfleets)[fleets])]
+  prof.table <- prof.table[,c(1:2,2+intersect((1:nfleets)[fleets],
+                                              (1:nfleets)[include]))]
+  nfleets <- ncol(prof.table)-2
+                                              
+  # figure out some things related to column names and fleet names
   for(icol in 3:ncol(prof.table)){
     if(names(prof.table)[icol] %in% FleetNames){
       names(prof.table)[icol] <- fleetnames[which(FleetNames==names(prof.table)[icol])]
@@ -161,12 +197,14 @@ PinerPlot <-
       names(prof.table)[icol] <- fleetnames[which(paste("X",FleetNames,sep="")==names(prof.table)[icol])]
     }
   }
-  
+
+  # set default y-limits
   if(ymax=="default") ymax <- 1.1*max(prof.table[subset,-(1:2)],na.rm=TRUE)
   ylim <- c(0,ymax)
-  
+
   parvec <- parvec[order(parvec)]
-    
+
+  # default colors and plot characters
   nlines <- ncol(prof.table)-2
   if(col[1]=="default") col <- rich.colors.short(nlines)
   if(pch[1]=="default") pch <- 1:nlines
@@ -174,7 +212,7 @@ PinerPlot <-
   cex <- c(cex.total,rep(cex,nlines-1))
   lty <- c(lty.total,rep(lty,nlines-1))
   #return(prof.table)
-  
+
   # make plot
   plotprofile <- function(){
     plot(0,type='n',xlim=xlim,ylim=ylim,xlab=profile.label, ylab=ylab,
