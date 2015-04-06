@@ -11,11 +11,11 @@ SS_plots(replist = NULL, plot = 1:24, print = NULL, pdf = FALSE,
   areacols = "default", areanames = "default", verbose = TRUE,
   uncertainty = TRUE, forecastplot = FALSE, datplot = FALSE,
   Natageplot = TRUE, samplesizeplots = TRUE, compresidplots = TRUE,
-  sprtarg = "default", btarg = "default", minbthresh = "default",
-  pntscalar = NULL, bub.scale.pearson = 1.5, bub.scale.dat = 3,
-  pntscalar.nums = 2.6, pntscalar.tags = 2.6, minnbubble = 8,
-  aalyear = -1, aalbin = -1, aalresids = FALSE, maxneff = 5000,
-  cohortlines = c(), smooth = TRUE, showsampsize = TRUE,
+  comp.yupper = 0.4, sprtarg = "default", btarg = "default",
+  minbthresh = "default", pntscalar = NULL, bub.scale.pearson = 1.5,
+  bub.scale.dat = 3, pntscalar.nums = 2.6, pntscalar.tags = 2.6,
+  minnbubble = 8, aalyear = -1, aalbin = -1, aalresids = FALSE,
+  maxneff = 5000, cohortlines = c(), smooth = TRUE, showsampsize = TRUE,
   showeffN = TRUE, sampsizeline = FALSE, effNline = FALSE,
   showlegend = TRUE, pwidth = 6.5, pheight = 5, punits = "in",
   ptsize = 10, res = 300, cex.main = 1, selexlines = 1:6, rows = 1,
@@ -100,6 +100,10 @@ time series?  Default=T.}
 \item{samplesizeplots}{Show sample size plots?  Default=T.}
 
 \item{compresidplots}{Show residuals for composition plots?}
+
+\item{comp.yupper}{Upper limit on ymax for polygon/histogram composition
+plots. This avoids scaling all plots to have max=1 if there is a vector
+with only a single observed fish in it. Default=0.4.}
 
 \item{sprtarg}{Specify the F/SPR proxy target. Default=0.4.}
 

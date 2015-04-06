@@ -6,7 +6,8 @@
 \usage{
 SS_doRetro(masterdir, oldsubdir, newsubdir = "retrospectives",
   subdirstart = "retro", years = 0:-5, overwrite = TRUE,
-  extras = "-nox", intern = FALSE, CallType = "system")
+  extras = "-nox", intern = FALSE, CallType = "system",
+  RemoveBlocks = FALSE)
 }
 \arguments{
 \item{masterdir}{Directory where everything takes place.}
@@ -34,6 +35,11 @@ saving to a file).}
 
 \item{CallType}{Either "system" or "shell" (choice depends on how you're running
 R. Default is "system".}
+
+\item{RemoveBlocks}{Logical switch determining whether specifications of
+blocks is removed from top of control file. Blocks can cause problems for
+retrospective analyses, but the method for removing them is overly
+simplistic and probably won't work in most cases. Default=FALSE.}
 }
 \description{
 Do retrospective analyses by creating new directories, copying model files,
@@ -55,7 +61,7 @@ to exclude.
   }
 }
 \author{
-Ian Taylor
+Ian Taylor, Jim Thorson
 }
 \seealso{
 \code{\link{SSgetoutput}}

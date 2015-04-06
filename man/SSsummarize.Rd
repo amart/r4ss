@@ -4,19 +4,12 @@
 \alias{SSsummarize}
 \title{Summarize the output from multiple Stock Synthesis models.}
 \usage{
-SSsummarize(biglist, keyvec = NULL, numvec = NULL, sizeselfactor = "Lsel",
-  ageselfactor = "Asel", selfleet = NULL, selyr = "startyr",
-  selgender = 1, SpawnOutputUnits = NULL, lowerCI = 0.025,
-  upperCI = 0.975)
+SSsummarize(biglist, sizeselfactor = "Lsel", ageselfactor = "Asel",
+  selfleet = NULL, selyr = "startyr", selgender = 1,
+  SpawnOutputUnits = NULL, lowerCI = 0.025, upperCI = 0.975)
 }
 \arguments{
 \item{biglist}{A list of lists created by \code{\link{SSgetoutput}}.}
-
-\item{keyvec}{Optional list of strings matching names of elements of biglist
-to subset. Default=NULL.}
-
-\item{numvec}{Optional list of numbers of elements from biglist to subset.
-Default=NULL.}
 
 \item{sizeselfactor}{A string or vector of strings indicating which elements
 of the selectivity at length output to summarize. Default=c("Lsel").}

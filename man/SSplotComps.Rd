@@ -6,7 +6,7 @@
 \usage{
 SSplotComps(replist, subplots = c(1:21, 24), kind = "LEN", sizemethod = 1,
   aalyear = -1, aalbin = -1, plot = TRUE, print = FALSE,
-  fleets = "all", fleetnames = "default", sexes = "all",
+  fleets = "all", fleetnames = "default", sexes = "all", yupper = 0.4,
   datonly = FALSE, samplesizeplots = TRUE, compresidplots = TRUE,
   bub = FALSE, showyears = TRUE, showsampsize = TRUE, showeffN = TRUE,
   sampsizeline = FALSE, effNline = FALSE, minnbubble = 3,
@@ -21,9 +21,10 @@ SSplotComps(replist, subplots = c(1:21, 24), kind = "LEN", sizemethod = 1,
   "Effective sample size", "Proportion", "cm", "Frequency", "Weight", "Length",
   "(mt)", "(numbers x1000)", "Stdev (Age) (yr)", "Conditional AAL plot, "),
   printmkt = TRUE, printsex = TRUE, maxrows = 6, maxcols = 6,
-  maxrows2 = 2, maxcols2 = 4, rows = 1, cols = 1, andrerows = 3,
-  fixdims = TRUE, fixdims2 = FALSE, maxneff = 5000, verbose = TRUE,
-  scalebins = FALSE, addMeans = TRUE, ...)
+  maxrows2 = 2, maxcols2 = 4, rows = 1, cols = 1, andre_oma = c(3, 0,
+  3, 0), andrerows = 3, fixdims = TRUE, fixdims2 = FALSE,
+  maxneff = 5000, verbose = TRUE, scalebins = FALSE, addMeans = TRUE,
+  ...)
 }
 \arguments{
 \item{replist}{list created by \code{SSoutput}}
@@ -56,6 +57,8 @@ through the conditional data. Default=-1.}
 \item{sexes}{which sexes to show plots for. Default="all" which will include
 males, females, and unsexed. This option is not fully implemented for all
 plots.}
+
+\item{yupper}{upper limit on ymax for polygon/histogram composition plots}
 
 \item{datonly}{make plots of data without fits as well as data with fits?}
 
@@ -158,6 +161,9 @@ for single plots}
 
 \item{cols}{number or cols to return to as default for next plots to come or
 for single plots}
+
+\item{andre_oma}{Outer margins passed to Andre's multi-panel conditional
+age-at-length plots.}
 
 \item{andrerows}{Number of rows of Andre's conditional age-at-length plots
 within each page. Default=3.}

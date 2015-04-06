@@ -15,7 +15,8 @@ bubble3(x, y, z, col = 1, cexZ1 = 5, maxsize = NULL, do.sqrt = TRUE,
 
 \item{y}{Vector of y-values.}
 
-\item{z}{Vector of bubble sizes.}
+\item{z}{Vector of bubble sizes, where positive sizes will be plotted as
+closed bubbles and negative as open unless \code{allopen==TRUE}.}
 
 \item{col}{Color for bubbles.}
 

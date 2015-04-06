@@ -52,8 +52,10 @@
 #' @param type type of line/points used for observed values (see 'type' in
 #' ?plot for details) on top of a grey polygon. Default is "o" for overplotting
 #' points on lines.
+#' @param polygons should polygons be added to the
+#' (turning off is required for sex-ratio plot)
 #' @param bars should the ptsx/ptsy values be bars instead of points
-#' (TRUE/FALSE)
+#' (TRUE/FALSE) NOT CURRENTLY FUNCTIONAL
 #' @param barwidth width of bars in barplot, default method chooses based on
 #' quick and dirty formula also, current method of plot(...type='h') could be
 #' replaced with better approach
@@ -90,6 +92,11 @@
 #' bin width for models where bins have different widths? Caution!: May not
 #' work correctly in all cases.
 #' @param sexvec vector of sex codes if more than one present (otherwise NULL)
+#' @param multifig_colpolygon vector of polygon fill colors of length 3
+#' (for females, males, and unsexed fish). Can be input to SS_plots and will be
+#' passed to this function via the ... argument.
+#' @param multifig_oma vector of outer margins. Can be input to SS_plots and will be
+#' passed to this function via the ... argument.
 #' @param \dots additional arguments (NOT YET IMPLEMENTED).
 #' @author Ian Taylor
 #' @export
@@ -104,6 +111,7 @@ make_multifig <-
            horiz_lab="default",xbuffer=c(.1,.1),ybuffer=c(0,0.15),
            yupper=NULL, ymin0=TRUE,
            axis1=NULL,axis2=NULL,linepos=1,type="o",
+           polygons=TRUE,
            bars=FALSE,barwidth="default",ptscex=1,ptscol=1,ptscol2=1,
            colvec=c(rgb(1,0,0,.7),rgb(0,0,1,.7),rgb(.1,.1,.1,.7)),
            linescol=c(rgb(0,.8,0,.7),rgb(1,0,0,.7),rgb(0,0,1,.7)),
@@ -112,7 +120,9 @@ make_multifig <-
            legadjx="default",legadjy="default",legsize=c(1.2,1.0),legfont=c(2,1),
            venusmars=TRUE,
            sampsizeline=FALSE,effNline=FALSE,sampsizemean=NULL,effNmean=NULL,
-           ipage=0,scalebins=FALSE,sexvec=NULL,...)
+           ipage=0,scalebins=FALSE,sexvec=NULL,
+           multifig_colpolygon=c("grey60","grey80","grey70"),
+           multifig_oma=c(5,5,5,2)+.1,...)
 {
   # switch to determine whether to show males below 0 line in same plot
   twosex <- TRUE
@@ -206,7 +216,7 @@ make_multifig <-
   # old graphics parameter settings
   par_old <- par()
   # new settings
-  par(mfcol=c(nrows,ncols),mar=rep(0,4),oma=c(5,5,5,2)+.1)
+  par(mfcol=c(nrows,ncols),mar=rep(0,4),oma=multifig_oma)
 
   panelrange <- 1:npanels
   if(npages > 1 & ipage!=0){
@@ -358,22 +368,28 @@ make_multifig <-
         # make polygons
         if(length(ptsx_i0)>0){
           # polygon for unsexed fish
-          polygon(c(ptsx_i0[1], ptsx_i0, tail(ptsx_i0, 1)), c(0, ptsy_i0, 0),
-                  col='grey70')
+          if(polygons){
+            polygon(c(ptsx_i0[1], ptsx_i0, tail(ptsx_i0, 1)), c(0, ptsy_i0, 0),
+                    col=multifig_colpolygon[3])
+          }
           # line with solid points on top for unsexed fish
           points(ptsx_i0, ptsy_i0, type=type, lwd=1, pch=16, cex=0.7, col=ptscol)
         }
         if(length(ptsx_i1)>0){
-          # polygon for females
-          polygon(c(ptsx_i1[1], ptsx_i1, tail(ptsx_i1, 1)), c(0, ptsy_i1, 0),
-                  col='grey80')
+          # polygon for females             
+          if(polygons){
+            polygon(c(ptsx_i1[1], ptsx_i1, tail(ptsx_i1, 1)), c(0, ptsy_i1, 0),
+                    col=multifig_colpolygon[1])
+          }
           # lines with solid points on top for females
           points(ptsx_i1, ptsy_i1, type=type, lwd=1, pch=16, cex=0.7, col=ptscol)
         }
         if(length(ptsx_i2)>0){
           # polygon for males (possibly below 0 line
-          polygon(c(ptsx_i2[1], ptsx_i2, tail(ptsx_i2, 1)), c(0, ptsy_i2, 0),
-                  col='grey60')  # polygon
+          if(polygons){
+            polygon(c(ptsx_i2[1], ptsx_i2, tail(ptsx_i2, 1)), c(0, ptsy_i2, 0),
+                    col=multifig_colpolygon[2])  # polygon
+          }
           # lines with solid points on top for males
           points(ptsx_i2, ptsy_i2, type=type, lwd=1, pch=16, cex=0.7, col=ptscol)
         }

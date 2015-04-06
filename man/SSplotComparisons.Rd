@@ -8,7 +8,7 @@ SSplotComparisons(summaryoutput, subplots = 1:20, plot = TRUE,
   print = FALSE, png = print, pdf = FALSE, models = "all",
   endyrvec = "default", indexfleets = NULL, indexUncertainty = FALSE,
   indexQlabel = TRUE, indexQdigits = 4, indexSEvec = "default",
-  indexPlotEach = FALSE, labels = c("Year", "Spawning biomass (mt)",
+  indexPlotEach = FALSE, labels = c("Year", "Spawning biomass (t)",
   "Relative spawning biomass", "Age-0 recruits (1,000s)",
   "Recruitment deviations", "Index", "Log index", "SPR ratio", "Density",
   "Management target", "Minimum stock size threshold", "Spawning output",
@@ -22,8 +22,9 @@ SSplotComparisons(summaryoutput, subplots = 1:20, plot = TRUE,
   plotdir = NULL, densitynames = c("SPB_Virgin", "R0"),
   densityxlabs = "default", densityscalex = 1, densityscaley = 1,
   densityadjust = 1, densitysymbols = TRUE, densitytails = TRUE,
-  densitylwd = 1, fix0 = TRUE, new = TRUE, add = FALSE, par = list(mar
-  = c(5, 4, 1, 1) + 0.1), verbose = TRUE, mcmcVec = "default")
+  densitymiddle = FALSE, densitylwd = 1, fix0 = TRUE, new = TRUE,
+  add = FALSE, par = list(mar = c(5, 4, 1, 1) + 0.1), verbose = TRUE,
+  mcmcVec = "default")
 }
 \arguments{
 \item{summaryoutput}{List created by \code{SSsummarize}}
@@ -49,7 +50,7 @@ columns in summary tables.}
 final year of values to show for each model. By default it is set to the
 ending year specified in each model.}
 
-\item{indexfleets}{Vector of fleets for each model for which to compare
+\item{indexfleets}{Vector of fleet numbers for each model for which to compare
 indices of abundance. Only necessary if any model has more than one index.}
 
 \item{indexUncertainty}{Show uncertainty intervals on index data?
@@ -107,8 +108,8 @@ top of lines)}
 TRUE/FALSE value, or a vector of TRUE/FALSE values for each model,
 or a set of integers corresponding to the choice of models.}
 
-\item{shadealpha}{Transparency parameter used to make default shadecol
-values (see ?rgb for more info)}
+\item{shadealpha}{Transparency adjustment used to make default shadecol
+values (implemented as \code{adjustcolor(col=col, alpha.f=shadealpha)})}
 
 \item{legend}{Add a legend?}
 
@@ -169,7 +170,9 @@ used for smoothing MCMC posteriors. See 'adjust' in ?density for details.}
 \item{densitysymbols}{Add symbols along lines in density plots. Quantiles
 are \code{c(0.025,0.1,0.25,0.5,0.75,0.9,0.975)}.}
 
-\item{densitytails}{Shade tails outside of 95\% interval in density plots.}
+\item{densitytails}{Shade tails outside of 95\% interval darker in density plots?}
+
+\item{densitymiddle}{Shade middle inside of 95\% interval darker in density plots?}
 
 \item{densitylwd}{Line width for density plots}
 

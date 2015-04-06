@@ -21,7 +21,7 @@ SSplotProfile(summaryoutput, plot = TRUE, print = FALSE, models = "all",
   xlim = "default", ymax = "default", xaxs = "r", yaxs = "r",
   type = "o", legend = TRUE, legendloc = "topright", pwidth = 6.5,
   pheight = 5, punits = "in", res = 300, ptsize = 10, cex.main = 1,
-  plotdir = NULL, verbose = TRUE)
+  plotdir = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{summaryoutput}{List created by the function \code{\link{SSsummarize}}.}
@@ -113,6 +113,8 @@ be the directory where the model was run.}
 
 \item{verbose}{Return updates of function progress to the R GUI? (Doesn't do
 anything yet.)}
+
+\item{\dots}{Additional arguments passed to the \code{plot} command.}
 }
 \description{
 Makes a plot of change in negative-log-likelihood for each likelihood
