@@ -159,7 +159,7 @@ function(replist, plot=TRUE,print=FALSE,add=FALSE,subplots=1:14,seas=1,
   if(!is.null(replist$wtatage_switch)) wtatage_switch  <- replist$wtatage_switch
   else stop("SSplotBiology function doesn't match SS_output function. Update one or both functions.")
 
-  if(wtatage_switch) cat("Note: this model uses the emperical weight-at-age input.\n",
+  if(wtatage_switch) cat("Note: this model uses the empirical weight-at-age input.\n",
                          "     Therefore many of the parametric biology quantities which are plotted\n",
                          "     are not used in the model.\n")
 
@@ -239,26 +239,45 @@ function(replist, plot=TRUE,print=FALSE,add=FALSE,subplots=1:14,seas=1,
       }
     }else{
       # if empirical weight-at-age IS used
-      wtmat <- wtatage[wtatage$fleet==-1 & wtatage$seas==seas & wtatage$gender==1,-(2:6)]
-      if(all(wtmat[1,]==wtmat[2,])) wtmat <- wtmat[-1,] # remove redundant first row
-      main <- "Empirical weight at age in middle of the year"
-      if(nsexes > 1){main <- "Female Empirical weight at age in middle of the year"}
-      persp(x=abs(wtmat$yr),
-            y=0:accuage,
-            z=as.matrix(wtmat[,-1]),
-            theta=70,phi=30,xlab="Year",ylab="Age",zlab="Weight",
-            main=main)
-      makeimage(wtmat, main=main)
 
+      # hake model in SSv3.30 (6-22-15) had gender=2 for some reason
+      # (haven't tested on 2-sex model with empirical weight-at-age inputs)
+      #wtmat <- wtatage[wtatage$fleet==-1 & wtatage$seas==seas & wtatage$gender==1,-(2:6)]
+      wtmat <- wtatage[wtatage$fleet==-1 & wtatage$seas==seas,-(2:6)]
+      # remove redundant first row if present
+      if(nrow(wtmat)>1 && all(wtmat[1,]==wtmat[2,])){
+        wtmat <- wtmat[-1,]
+      }
+      if(nrow(wtmat)<2){
+        cat("not enough rows in weight-at-age matrix per to plot\n")
+      }else{
+        main <- "Empirical weight at age in middle of the year"
+        if(nsexes > 1){
+          main <- "Female Empirical weight at age in middle of the year"
+        }
+        persp(x=abs(wtmat$yr),
+              y=0:accuage,
+              z=as.matrix(wtmat[,-1]),
+              theta=70,phi=30,xlab="Year",ylab="Age",zlab="Weight",
+              main=main)
+        makeimage(wtmat, main=main)
+      }
       if(nsexes > 1){
-      wtmat <- wtatage[wtatage$fleet==-1 & wtatage$seas==seas & wtatage$gender==2,-(2:6)]
-      if(all(wtmat[1,]==wtmat[2,])) wtmat <- wtmat[-1,] # remove redundant first row
-      persp(x=abs(wtmat$yr),
-            y=0:accuage,
-            z=as.matrix(wtmat[,-1]),
-            theta=70,phi=30,xlab="Year",ylab="Age",zlab="Weight",
-            main="Male Empirical weight at age in middle of the year")
-      makeimage(wtmat, main="Male Empirical weight at age in middle of the year")
+        wtmat <- wtatage[wtatage$fleet==-1 & wtatage$seas==seas & wtatage$gender==2,-(2:6)]
+        # remove redundant first row if present
+        if(nrow(wtmat)>1 && all(wtmat[1,]==wtmat[2,])){
+          wtmat <- wtmat[-1,]
+        }
+        if(nrow(wtmat)<2){
+          cat("not enough rows in weight-at-age matrix per to plot\n")
+        }else{
+          persp(x=abs(wtmat$yr),
+                y=0:accuage,
+                z=as.matrix(wtmat[,-1]),
+                theta=70,phi=30,xlab="Year",ylab="Age",zlab="Weight",
+                main="Male Empirical weight at age in middle of the year")
+          makeimage(wtmat, main="Male Empirical weight at age in middle of the year")
+        }
       }
     }
   }
@@ -382,7 +401,7 @@ function(replist, plot=TRUE,print=FALSE,add=FALSE,subplots=1:14,seas=1,
 
   ymax <- max(biology$Mean_Size)
   x <- growdatF$Age_Beg
-    
+
   main <- "Ending year expected growth (with 95% intervals)"
   # if(nseasons > 1){main <- paste(main," season 1",sep="")}
   col_index1 <- 3 # default is grey for single-sex model
