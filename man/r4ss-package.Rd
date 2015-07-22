@@ -40,4 +40,3 @@ r4ss on GitHub: \url{https://github.com/r4ss}
 \cr Download Stock Synthesis: \url{http://nft.nefsc.noaa.gov/}
 }
 \keyword{package}
-

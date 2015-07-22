@@ -65,4 +65,3 @@ Ian Taylor, Ian Stewart
 \code{\link{SS_plots}}
 }
 \keyword{hplot}
-
