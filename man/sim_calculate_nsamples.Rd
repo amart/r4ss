@@ -7,8 +7,11 @@ generating a sample from a multinomial distribution with num_bins}
 \usage{
 sim_calculate_nsamples(num_bins = -1)
 }
+\arguments{
+\item{num_bins}{- number of data bins}
+}
 \value{
-num_samples
+num_samples - number of samples
 }
 \description{
 this function calculates the number of sample sizes needed for
