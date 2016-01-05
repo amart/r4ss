@@ -35,19 +35,12 @@ library(r4ss)
 
 ### Changes
 
-<<<<<<< HEAD
-### Testing
-
-Note on January 7th, 2015:
-Please help test an experimental version of r4ss that will soon be merged into the main code. You can install it using the command:
-=======
 Note on January 15th, 2015:
 A variety of changes that were in a branch on this GitHub site have now been merged into the main code. If anything doesn't work for you, you can install an earlier version using the command.
 =======
 See NEWS.md for log of changes, starting with v1.24.0.
 
 On January 15th, 2015 and included in CRAN submission of v1.24.0, a variety of changes that were in a branch on this GitHub site have now been merged into the main code. If anything doesn't work for you, you can install an earlier version from GitHub using the devtools command:
->>>>>>> 2622cfeef65dd7b445e846e07b42481433cf4cae
 
 ```S
 devtools::install_github("amart/r4ss", ref="v1.22.1")
