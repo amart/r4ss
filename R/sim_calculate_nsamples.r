@@ -1,8 +1,8 @@
 ##' this function calculates the number of sample sizes needed for
 ##' generating a sample from a multinomial distribution with num_bins
 ##'
-##' @param num_bins
-##' @return num_samples
+##' @param num_bins - number of data bins
+##' @return num_samples - number of samples
 ##' @export
 ##'
 
