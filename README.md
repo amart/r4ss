@@ -9,7 +9,7 @@ Stock Synthesis is a fisheries stock assessment model written in ADMB by Dr. Ric
 
 ### Installation
 
-The r4ss package version 1.22.1 is on CRAN and can be installed in R using a command like
+The latest r4ss version on CRAN can be installed using a command like
 
 ```S
 install.packages("r4ss")
@@ -18,7 +18,7 @@ To get notifications about r4ss, you can watch this GitHub project and/or join t
 
 Additional information about r4ss at the old Google Code page, <https://code.google.com/p/r4ss/>, will be migrated over to GitHub in the future.
 
-The latest development version of r4ss can be installed directly from Github at any time via the `devtools` package in R and with the following commands:
+More frequent enhancements and bug fixes are posted to this GitHub project. The latest version of r4ss can be installed directly from Github at any time via the `devtools` package in R with the following commands:
 
 ```S
 install.packages("devtools")
@@ -35,6 +35,7 @@ library(r4ss)
 
 ### Changes
 
+<<<<<<< HEAD
 ### Testing
 
 Note on January 7th, 2015:
@@ -42,6 +43,11 @@ Please help test an experimental version of r4ss that will soon be merged into t
 =======
 Note on January 15th, 2015:
 A variety of changes that were in a branch on this GitHub site have now been merged into the main code. If anything doesn't work for you, you can install an earlier version using the command.
+=======
+See NEWS.md for log of changes, starting with v1.24.0.
+
+On January 15th, 2015 and included in CRAN submission of v1.24.0, a variety of changes that were in a branch on this GitHub site have now been merged into the main code. If anything doesn't work for you, you can install an earlier version from GitHub using the devtools command:
+>>>>>>> 2622cfeef65dd7b445e846e07b42481433cf4cae
 
 ```S
 devtools::install_github("amart/r4ss", ref="v1.22.1")
