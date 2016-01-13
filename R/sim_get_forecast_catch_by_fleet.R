@@ -12,7 +12,7 @@ sim_get_forecast_catch_by_fleet <- function(forecast_report_path,num_fleets=0,nu
 {
     catch_proj <- NULL
 
-    forecast_report_filename <- file.path(forecast_report_path,"\\Forecast-report.sso")
+    forecast_report_filename <- file.path(forecast_report_path,"/Forecast-report.sso")
 
     # check if file exists - thanks, Ian
     temp_file_size <- file.info(forecast_report_filename)$size
