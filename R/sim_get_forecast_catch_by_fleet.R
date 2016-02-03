@@ -26,7 +26,12 @@ sim_get_forecast_catch_by_fleet <- function(forecast_report_path,num_fleets=0,nu
         if (num.rows.fct > 0 && num_fleets > 0 && num_seasons > 0 && num_fc_years > 0)
         {
             # in which row are the column labels?
-            label_row <- num.rows.fct - ((num_fc_years * num_seasons) + 1)
+            # label_row <- num.rows.fct - ((num_fc_years * num_seasons) + 1)
+            label_row <- max(which(fc_table$X1 == "pop",arr.ind=TRUE))
+            if (is.na(label_row) || label_row < 1 || label_row > num.rows.fct)
+            {
+                label_row <- num.rows.fct - ((num_fc_years * num_seasons) + 1)
+            }
 
             # get the columns with "dead(B):_[N]"
             catch_cols <- which(startsWith(fc_table[label_row,],"dead(B):_") == TRUE)
