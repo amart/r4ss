@@ -44,7 +44,8 @@
 #' @param alphasize The transparency of the bubbles in the datasize
 #' plot. Defaults to 1 (no transparency). Useful for models with lots of
 #' overlapping points.
-#' @author Ian Taylor, Chantel Wetzel
+#' @param both Logcal to create both plots (datasize=F and datasize=T). This is ignored for the case when datasize=F.
+#' @author Ian Taylor, Chantel Wetzel, Cole Monnahan
 #' @export
 #' @seealso \code{\link{SS_plots}}, \code{\link{SS_output}},
 #' \code{\link{SS_readdat}}
@@ -60,6 +61,7 @@ SSplotData <- function(replist,
                        datasize=TRUE,
                        maxsize=0.5,
                        alphasize=1,
+                       both=T,
                        verbose=TRUE)
 {
   pngfun <- function(file,caption=NA){
@@ -70,14 +72,25 @@ SSplotData <- function(replist,
   }
   plotinfo <- NULL
 
+  ### override datasize variable in seasonal models
+  if(replist$nseasons > 1){
+    cat("  Setting datasize to FALSE because not yet implemented for seasonal models.\n")
+    datasize <- FALSE
+  }
+
   ### get info from replist
   # dimensions
   startyr       <- replist$startyr
   endyr         <- replist$endyr
   nfleets       <- replist$nfleets
   nfishfleets   <- replist$nfishfleets
-  if(fleetnames[1]=="default") fleetnames  <- replist$FleetNames
-  if(plotdir=="default") plotdir <- replist$inputs$dir
+  
+  if(fleetnames[1]=="default"){
+    fleetnames  <- replist$FleetNames
+  }
+  if(plotdir=="default"){
+    plotdir <- replist$inputs$dir
+  }
 
   # catch
   catch <- SSplotCatch(replist,plot=F,print=F,verbose=FALSE)
@@ -153,7 +166,7 @@ SSplotData <- function(replist,
               }
               if(typename %in% c("mnwgt","discard")){
                   allyrs <- dat$Yr[dat$FleetNum==ifleet]
-                  size <- rep(1, len=length(allyears))
+                  size <- rep(1, len=length(allyrs))
               }
               if(length(grep("dbase",typename))>0){
                   allyrs <- dat$Yr[dat$Fleet==ifleet]
@@ -269,7 +282,7 @@ SSplotData <- function(replist,
     axis(1,at=xticks)
   }
   ## Always make the original one
-  if(plot) plotdata(datasize=FALSE)
+  if(plot & (!datasize | both)) plotdata(datasize=FALSE)
   if(print) {
     file <- file.path(plotdir,"data_plot.png")
     caption <- "Data presence by year for each fleet"
