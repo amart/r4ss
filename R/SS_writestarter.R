@@ -17,7 +17,6 @@
 #' \code{\link{SS_readctl}}, \code{\link{SS_writestarter}},
 #' \code{\link{SS_writeforecast}}, \code{\link{SS_writedat}},
 #' \code{\link{SS_writectl}}
-#' @keywords data manip
 SS_writestarter <- function(mylist, dir=NULL, file="starter.ss",
                             overwrite=FALSE, verbose=TRUE, warn=TRUE){
   if(verbose) cat("running SS_writestarter\n")
@@ -102,6 +101,10 @@ SS_writestarter <- function(mylist, dir=NULL, file="starter.ss",
     cat(mylist[["F_age_range"]],"#_F_age_range\n")
   }
   wl("F_report_basis")
+  # only write ALK_tolerance if this is SSv3.30 (value didn't exist in 3.24)
+  if(mylist$final==3.3){
+    wl("ALK_tolerance")
+  }
   writeLines("#")
   wl("final")
 

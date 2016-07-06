@@ -1,8 +1,8 @@
 #' read starter file
-#' 
+#'
 #' read Stock Synthesis starter file into list object in R
-#' 
-#' 
+#'
+#'
 #' @param file Filename either with full path or relative to working directory.
 #' @param verbose Should there be verbose output while running the file?
 #' @author Ian Taylor
@@ -11,7 +11,6 @@
 #' \code{\link{SS_readctl}}, \code{\link{SS_writestarter}},
 #' \code{\link{SS_writeforecast}}, \code{\link{SS_writedat}},
 #' \code{\link{SS_writectl}}
-#' @keywords data
 SS_readstarter <-  function(file='starter.ss', verbose=TRUE){
   if(verbose) cat("running SS_readstarter\n")
   size <- file.info(file)$size
@@ -47,7 +46,7 @@ SS_readstarter <-  function(file='starter.ss', verbose=TRUE){
   if(verbose){
     cat("  data, control files: ",mylist$datfile,", ",mylist$ctlfile,"\n",sep="")
   }
-  
+
   # get numbers (could be better integrated with function above)
   allnums <- NULL
   for(i in 1:length(starter)){
@@ -103,7 +102,15 @@ SS_readstarter <-  function(file='starter.ss', verbose=TRUE){
   }
   mylist$F_report_basis <- allnums[i]; i <- i+1
   if(verbose) cat("  F_report_basis =",mylist$F_report_basis,"\n")
-  
+
+  # last value in vector of numerical values
+  i.final <- length(allnums)
+  if(i == i.final-1){
+    # file is probably 3.30
+    mylist$ALK_tolerance <- allnums[i]; i <- i+1
+    if(verbose) cat("  ALK_tolerance =",mylist$ALK_tolerance,"\n")
+  }
+
   # check final value
   mylist$final <- final <- allnums[i]
   if(!is.na(final) && final %in% c(3.30, 999)){
