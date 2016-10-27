@@ -522,7 +522,8 @@ SS_output <-
 
       # make correction to tag output associated with 3.24f (fixed in later versions)
       if(substr(SS_version,1,9)=="SS-V3.24f"){
-        cat('Correcting for bug in tag data output associated with SSv3.24f\n')
+        if(!hidewarn)
+          cat('Correcting for bug in tag data output associated with SSv3.24f\n')
         tag1rows <- compdbase$Pick_gender=="TAG1"
         if(any(tag1rows)){
           tag1 <- compdbase[tag1rows,]
@@ -1376,20 +1377,19 @@ if(FALSE){
   # get birth seasons as vector of seasons with non-zero recruitment
   returndat$birthseas <- sort(unique(timeseries$Seas[timeseries$Recruit_0 > 0]))
 
-  # Ian T.: not sure if/when the "recruit_dist_endyr" stuff below does anything
+  # distribution of recruitment
   if("recruit_dist_endyr" %in% names(recruitment_dist)){
+    # from SSv3.24Q onward, recruitment_dist is a list of tables, not a single table
     rd <- recruitment_dist$recruit_dist_endyr
   }else{
     rd <- recruitment_dist
   }
-  # orphaned note: if there are no fish born in the spawning season,
-  #                then it [mainmorph?] should be the first birth season
 
-  # set mainmorphs as those morphs born in the spawning season
+  # set mainmorphs as those morphs born in the first season with recruitment
   # and the largest fraction of the platoons (should equal middle platoon when present)
   if(SS_versionNumeric >= 3.3){
     # new "platoon" label
-    temp <- morph_indexing[morph_indexing$Bseas==min(rd$Seas) &
+    temp <- morph_indexing[morph_indexing$Bseas==min(rd$Seas[rd$"Frac/sex">0]) &
                              morph_indexing$Platoon_Dist==max(morph_indexing$Platoon_Dist),]
     mainmorphs <- min(temp$Index[temp$Sex==1])
     if(nsexes==2){
@@ -1398,7 +1398,7 @@ if(FALSE){
   }
   if(SS_versionNumeric < 3.3){
     # old "sub_morph" label
-    temp <- morph_indexing[morph_indexing$Bseas==min(rd$Seas) &
+    temp <- morph_indexing[morph_indexing$Bseas==min(rd$Seas[rd$Value>0]) &
                              morph_indexing$Sub_Morph_Dist==max(morph_indexing$Sub_Morph_Dist),]
     mainmorphs <- min(temp$Index[temp$Gender==1])
     if(nsexes==2){
