@@ -734,9 +734,18 @@ SS_output <-
   lambdas <- as.numeric(lambdas)
   like$lambdas <- lambdas
   stats$likelihoods_used <- like
+
   # read fleet-specific likelihoods
   likelihoods_by_fleet <-
     matchfun2("Fleet:",0,"Input_Variance_Adjustment",-1,header=TRUE)
+  Parm_devs_detail <- NA
+  # read detail on parameters devs (if present, 3.30 only)
+  if(length(grep("Parm_devs_detail", likelihoods_by_fleet[,1]))>0){
+    likelihoods_by_fleet <-
+      matchfun2("Fleet:",0,"Parm_devs_detail",-1,header=TRUE)
+    Parm_devs_detail <-
+      matchfun2("Parm_devs_detail",1,"Input_Variance_Adjustment",-1,header=TRUE)
+  }
 
   # check for presence of tag data likelihood which has different column structure
   if(length(grep("Tag_Group", likelihoods_by_fleet[,1]))>0){
@@ -773,6 +782,7 @@ SS_output <-
   likelihoods_by_fleet$Label <- labs
 
   stats$likelihoods_by_fleet <- likelihoods_by_fleet
+  stats$Parm_devs_detail <- Parm_devs_detail
 
   # parameters
   if(SS_versionNumeric>= 3.23) shift <- -1
@@ -981,7 +991,17 @@ SS_output <-
                    header=TRUE)
   der <- der[der$LABEL!="Bzero_again",]
   der[der=="_"] <- NA
-  for(i in 2:3) der[,i] = as.numeric(der[,i])
+  der[der==""] <- NA
+
+  # remove bad rows that may go away in future versions of SS 3.30 
+  test <- grep("Parm_dev_details", der$LABEL)
+  if(length(test)>0){
+    der <- der[1:(min(test)-1),]
+  }
+  # convert columns to numeric
+  for(i in 2:ncol(der)){
+    der[,i] = as.numeric(der[,i])
+  }
   rownames(der) <- der$LABEL
 
   managementratiolabels <- matchfun2("DERIVED_QUANTITIES",1,"DERIVED_QUANTITIES",3,cols=1:2)
@@ -1024,22 +1044,43 @@ SS_output <-
 
   # recruitment distribution
   recruitment_dist <- matchfun2("RECRUITMENT_DIST",1,"MORPH_INDEXING",-1,header=TRUE)
-  # starting in SSv3.24Q there are additional outputs that get combined as a list
-  if(length(grep("RECRUITMENT_DIST_BENCHMARK",recruitment_dist[,1]))==0){
-    for(i in 1:6) recruitment_dist[,i] <- as.numeric(recruitment_dist[,i])
+  # models prior to SSv3.24Q have no additional outputs
+  if(length(grep("RECRUITMENT_DIST",recruitment_dist[,1]))==0){
+    for(i in 1:6){
+      recruitment_dist[,i] <- as.numeric(recruitment_dist[,i])
+    }
   }else{
-    recruitment_dist <- matchfun2("RECRUITMENT_DIST",0,"MORPH_INDEXING",-1,header=FALSE)
-    # start empty list
-    rd <- list()
-    # find break points in table
-    rd.line.top   <- 1
-    rd.line.bench <- grep("RECRUITMENT_DIST_BENCHMARK", recruitment_dist[,1])
-    rd.line.fore  <- grep("RECRUITMENT_DIST_FORECAST", recruitment_dist[,1])
-    rd.line.end   <- nrow(recruitment_dist)
-    # split apart table
-    rd$recruit_dist_endyr      <- recruitment_dist[(rd.line.top+1):(rd.line.bench-1),]
-    rd$recruit_dist_benchmarks <- recruitment_dist[(rd.line.bench+1):(rd.line.fore-1),]
-    rd$recruit_dist_forecast   <- recruitment_dist[(rd.line.fore+1):(rd.line.end),]
+    # starting in SSv3.24Q there are additional outputs that get combined as a list
+    if(length(grep("RECRUITMENT_DIST_BENCHMARK",recruitment_dist[,1]))>0){
+      recruitment_dist <- matchfun2("RECRUITMENT_DIST",0,"MORPH_INDEXING",-1,header=FALSE)
+      # start empty list
+      rd <- list()
+      # find break points in table
+      rd.line.top   <- 1
+      rd.line.bench <- grep("RECRUITMENT_DIST_BENCHMARK", recruitment_dist[,1])
+      rd.line.fore  <- grep("RECRUITMENT_DIST_FORECAST", recruitment_dist[,1])
+      rd.line.end   <- nrow(recruitment_dist)
+      # split apart table
+      rd$recruit_dist_endyr      <- recruitment_dist[(rd.line.top+1):(rd.line.bench-1),]
+      rd$recruit_dist_benchmarks <- recruitment_dist[(rd.line.bench+1):(rd.line.fore-1),]
+      rd$recruit_dist_forecast   <- recruitment_dist[(rd.line.fore+1):(rd.line.end),]
+    }
+    # names were changed in SSv3.30
+    if(length(grep("RECRUITMENT_DIST_Bmark",recruitment_dist[,1]))>0){
+      recruitment_dist <- matchfun2("RECRUITMENT_DIST",0,"MORPH_INDEXING",-1,header=FALSE)
+      # start empty list
+      rd <- list()
+      # find break points in table
+      rd.line.top   <- 1
+      rd.line.Bmark <- grep("RECRUITMENT_DIST_Bmark", recruitment_dist[,1])
+      rd.line.endyr <- grep("RECRUITMENT_DIST_endyr", recruitment_dist[,1])
+      rd.line.end   <- nrow(recruitment_dist)
+      # split apart table
+      rd$recruit_dist       <- recruitment_dist[(rd.line.top+1):(rd.line.Bmark-1),]
+      rd$recruit_dist_Bmark <- recruitment_dist[(rd.line.Bmark+1):(rd.line.endyr-1),]
+      rd$recruit_dist_endyr <- recruitment_dist[(rd.line.endyr+1):(rd.line.end),]
+    }
+    
     for(i in 1:length(rd)){
       # convert first row to header
       tmp <- rd[[i]]
@@ -1060,11 +1101,11 @@ SS_output <-
     as.numeric(matchfun2("Convergence_Level",0,"Convergence_Level",0,cols=2))
 
   # sigma_R
-  if(SS_versionNumeric >= 3.3 |
-     substring(SS_version,1,9) %in% c("SS-V3.24U", "SS-V3.24V",
-                                      "SS-V3.24W", "SS-V3.24X",
-                                      "SS-V3.24Y", "SS-V3.24Z")){
-    # accounting for additional line introduced in 3.24U
+  if(SS_versionNumeric >= 3.30 |
+     # accounting for additional line introduced in 3.24U
+     # should be now robust up through 3.24AZ (if that ever gets created)
+     substring(SS_version,1,9) %in% paste0("SS-V3.24", LETTERS[22:26]) | 
+     substring(SS_version,1,10) %in% paste0("SS-V3.24A",LETTERS)){ 
     last_row_index <- 11
   }else{
     last_row_index <- 10
@@ -1865,6 +1906,18 @@ if(FALSE){
       Dynamic_Bzero <- Dynamic_Bzero[-(1:2),]
       for(icol in c(1,3,4)) Dynamic_Bzero[,icol] <- as.numeric(as.character(Dynamic_Bzero[,icol]))
       names(Dynamic_Bzero) <- c("Yr","Era","SPB","SPB_nofishing")
+    }
+    if(nareas>1 & ngpatterns==1){ # for spatial models, do some cleanup
+      Dynamic_Bzero <- cbind(Dynamic_Bzero1,Dynamic_Bzero2[,-(1:2)])
+      Dynamic_Bzero <- Dynamic_Bzero[-(1:2),]
+      for(icol in (1:ncol(Dynamic_Bzero))[-2]){
+        Dynamic_Bzero[,icol] <- as.numeric(as.character(Dynamic_Bzero[,icol]))
+      }
+      names(Dynamic_Bzero) <- c("Yr","Era",paste0("SPB_area",1:nareas),
+                                paste0("SPB_nofishing_area",1:nareas))
+      Dynamic_Bzero$SPB <- apply(Dynamic_Bzero[,2 + 1:nareas], 1, sum)
+      Dynamic_Bzero$SPB_nofishing <-
+        apply(Dynamic_Bzero[,2 + nareas + 1:nareas], 1, sum)
     }
   }
   returndat$Dynamic_Bzero <- Dynamic_Bzero
