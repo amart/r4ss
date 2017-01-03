@@ -1,3 +1,5 @@
+This repository is a fork of r4ss/r4ss with additional functions for use with amart/ss-sims.
+
 # r4ss: R code for Stock Synthesis
 [![Build Status](https://travis-ci.org/r4ss/r4ss.png?branch=master)](https://travis-ci.org/r4ss/r4ss)
 
