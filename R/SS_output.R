@@ -1251,8 +1251,8 @@ if(FALSE){
   if(SS_versionNumeric >= 3.3){
     returndat$definitions  <- defs
     returndat$fleet_ID     <- fleet_ID
-    returndat$fleet_type   <- fleet_area
-    returndat$fleet_timing <- fleet_area
+    returndat$fleet_type   <- fleet_type
+    returndat$fleet_timing <- fleet_timing
     returndat$fleet_area   <- fleet_area
     returndat$catch_units  <- catch_units
     returndat$catch_se     <- catch_se
@@ -1738,7 +1738,11 @@ if(FALSE){
   returndat$cpue <- cpue
 
   # Numbers at age
-  rawnatage <- matchfun2("NUMBERS_AT_AGE",1,"NUMBERS_AT_LENGTH",-1,cols=1:(12+accuage),substr1=FALSE)
+  if(SS_versionNumeric >= 3.3){
+    rawnatage <- matchfun2("NUMBERS_AT_AGE",1,"BIOMASS_AT_AGE",-1,cols=1:(13+accuage),substr1=FALSE)
+  }else{
+    rawnatage <- matchfun2("NUMBERS_AT_AGE",1,"NUMBERS_AT_LENGTH",-1,cols=1:(12+accuage),substr1=FALSE)
+  }
   if(length(rawnatage)>1){
     names(rawnatage) <- rawnatage[1,]
     rawnatage <- rawnatage[-1,]
