@@ -70,7 +70,9 @@
 #' @param legend Add a legend?
 #' @param legendlabels Optional vector of labels to include in legend. Default
 #' is 'model1','model2',etc.
-#' @param legendloc Location of legend. See ?legend for more info.
+#' @param legendloc Location of legend. Either a string like "topleft" or a vector
+#' of two numeric values representing the fraction of the maximum in the x and y
+#' dimensions, respectively. See ?legend for more info on the string options.
 #' @param legendorder Optional vector of model numbers that can be used to have
 #' the legend display the model names in an order that is different than that
 #' which is represented in the summary input object.
@@ -124,7 +126,7 @@
 #' @param show_equilibrium Whether to show the equilibrium values for
 #' SSB. For some model comparisons, these might not be comparable and thus
 #' useful to turn off. Defaults to TRUE.
-#' @author Ian Taylor
+#' @author Ian G. Taylor, John R. Wallace
 #' @export
 #' @seealso \code{\link{SS_plots}}, \code{\link{SSsummarize}},
 #' \code{\link{SS_output}}, \code{\link{SSgetoutput}}
@@ -225,6 +227,12 @@ SSplotComparisons <-
     if(cumulative){
       legendloc="topleft"
     }
+    if(is.numeric(legendloc)) {
+      Usr <- par()$usr
+      legendloc <- list(x = Usr[1] + legendloc[1] * (Usr[2] - Usr[1]),
+                        y = Usr[3] + legendloc[2] * (Usr[4] - Usr[3]))
+    }
+    
     # if type input is "l" then turn off points on top of lines in legend
     legend.pch <- pch
     if(type=="l"){
