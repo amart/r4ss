@@ -949,15 +949,15 @@ SSplotComps <-
 
         ### subplot 8: Chris Francis TA1.8 method for non-conditional data
         if(8 %in% subplots & kind %in% c("LEN","SIZE","AGE")){
-          caption <- paste("Francis data weighting method TA1.8 ", fleetnames[f],sep="")
+          caption <- paste0("Francis data weighting method TA1.8: ", fleetnames[f])
           # convert "AGE" to "age" so that SSMethod.TA1.8 can find "agedbase", etc.
           kind2 <- tolower(kind)
           if(plot){
             SSMethod.TA1.8(fit=replist, type=kind2, fleet=f)
           }
           if(print){ # set up plotting to png file if required
-            file <- paste(filenamestart,
-                          "data_weighting_TA1.8_",fleetnames[f],".png",sep="")
+            file <- paste0(filenamestart,
+                           "data_weighting_TA1.8_",fleetnames[f],".png")
             # not using pngfun because caption isn't available until after
             # plot is created
             # old command: plotinfo <- pngfun(file=file, caption=caption)
@@ -967,16 +967,21 @@ SSplotComps <-
             tmp <- SSMethod.TA1.8(fit=replist, type=kind2, fleet=f)
             # put additional info into caption for figure
             if(!is.null(tmp[1])){
-              vals <- paste("Suggested sample size adjustment ",
-                            "(with 95% interval) for ", kind2, " data from ",
-                            fleetnames[f],":<br>",
-                            round(tmp[1],4), " (",
-                            round(tmp[2],4),"-",round(tmp[3],4),")",
-                            sep="")
+              vals <- paste0("Suggested sample size adjustment ",
+                             "(with 95% interval) for ", kind2, " data from ",
+                             fleetnames[f],":<br>",
+                             round(tmp[1],4), " (",
+                             round(tmp[2],4),"-",round(tmp[3],4),")")
             }else{
               vals <- "Too few points to calculate adjustments"
             }
             caption <- paste(caption,"<br>",vals)
+            caption <- paste(caption,"<br><br>For more info, see<br>",
+                             "<blockquote>Francis, R.I.C.C. (2011).",
+                             "Data weighting in statistical fisheries stock assessment",
+                             "models. <i>Can. J. Fish. Aquat. Sci.</i>",
+                             "68: 1124-1138.</blockquote>")
+            
             # add caption to the plotinfo table (normally done by pngfun)
             plotinfo <- rbind(plotinfo,data.frame(file=file,caption=caption))
 
@@ -985,29 +990,50 @@ SSplotComps <-
         }
         ### subplot 9: Chris Francis TA1.8 method for conditional data
         if(9 %in% subplots & kind=="cond" & (f %in% condbase$Fleet)){
-          caption <- paste("Francis data weighting method TA1.8 for conditional age data ",
+          caption <- paste("Francis data weighting method TA1.8 for conditional age data:",
                           fleetnames[f],sep="")
           if(plot){
             SSMethod.Cond.TA1.8(fit=replist, fleet=f)
           }
           if(print){ # set up plotting to png file if required
-            caption <- paste(caption,"<br>For more info, see<br>",
+            file <- paste(filenamestart,
+                          "data_weighting_TA1.8_condAge",fleetnames[f],".png",sep="")
+            # not using pngfun because caption isn't available until after
+            # plot is created
+            # old command: plotinfo <- pngfun(file=file, caption=caption)
+            png(filename=file.path(plotdir, file), width=pwidth, height=pheight,
+                units=punits, res=res, pointsize=ptsize)
+            # run function
+            tmp <- SSMethod.Cond.TA1.8(fit=replist, fleet=f)
+            # put additional info into caption for figure
+            if(!is.null(tmp[1])){
+              vals <- paste("Suggested sample size adjustment",
+                            "(with 95% interval) for",
+                            "conditional age-at-length data from ",
+                            fleetnames[f],":<br>",
+                            round(tmp[1],4), " (",
+                            round(tmp[2],4),"-",round(tmp[3],4),")",
+                            sep="")
+            }else{
+              vals <- "Too few points to calculate adjustments"
+            }
+            caption <- paste(caption,"<br>",vals)
+            caption <- paste(caption,"<br><br>For more info, see<br>",
                              "<blockquote>Francis, R.I.C.C. (2011).",
                              "Data weighting in statistical fisheries stock assessment",
                              "models. <i>Can. J. Fish. Aquat. Sci.</i>",
                              "68: 1124-1138.</blockquote>")
-            file <- paste(filenamestart,
-                          "data_weighting_TA1.8_condAge",fleetnames[f],".png",sep="")
-            plotinfo <- pngfun(file=file, caption=caption)
-            SSMethod.Cond.TA1.8(fit=replist, fleet=f)
+            # add caption to the plotinfo table (normally done by pngfun)
+            plotinfo <- rbind(plotinfo,data.frame(file=file,caption=caption))
+
             dev.off() # close device if png
           } # end test for print to PNG option
         }
         ### subplot 10: Andre's mean age and std. dev. in conditional AAL
         if(10 %in% subplots & kind=="cond"){
-          caption <- paste(labels[14], title_sexmkt, fleetnames[f],sep="")
+          caption1 <- paste(labels[14], title_sexmkt, fleetnames[f],sep="")
           if(mainTitle) {
-            ptitle <- caption
+            ptitle <- caption1
           } else {
             ptitle <- ""
           }
@@ -1104,7 +1130,7 @@ SSplotComps <-
               pagetext <- ""
               if(npages>1){
                 pagetext <- paste("_page",ipage,sep="")
-                caption <- paste(caption, " (plot ",ipage," of ",npages,")",sep="")
+                caption <- paste(caption1, " (plot ",ipage," of ",npages,")",sep="")
                 caption <- paste(caption,
                 "\nThese plots show mean age and std. dev. in conditional A@L.<br>",
                 "Left plots are mean A@L by size-class (obs. and pred.) ",
