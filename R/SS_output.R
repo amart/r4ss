@@ -1067,12 +1067,12 @@ SS_output <-
   # make older SS output names match current SS output conventions
   der <- df.rename(der, oldnames="LABEL", newnames="Label")
 
-  der <- der[der$LABEL!="Bzero_again",]
+  der <- der[der$Label!="Bzero_again",]
   der[der=="_"] <- NA
   der[der==""] <- NA
 
   # remove bad rows that may go away in future versions of SS 3.30 
-  test <- grep("Parm_dev_details", der$LABEL)
+  test <- grep("Parm_dev_details", der$Label)
   if(length(test)>0){
     der <- der[1:(min(test)-1),]
   }
@@ -1080,7 +1080,7 @@ SS_output <-
   for(i in 2:ncol(der)){
     der[,i] = as.numeric(der[,i])
   }
-  rownames(der) <- der$LABEL
+  rownames(der) <- der$Label
 
   managementratiolabels <- matchfun2("DERIVED_QUANTITIES",1,"DERIVED_QUANTITIES",3,cols=1:2)
   names(managementratiolabels) <- c("Ratio","Label")
@@ -1232,8 +1232,8 @@ SS_output <-
   for(i in 1:(ncol(recruit)-1)) recruit[,i] <- as.numeric(recruit[,i])
   # make older SS output names match current SS output conventions
   recruit <- df.rename(recruit,
-                       oldnames=c("year", "spawn_bio"),
-                       newnames=c("Yr",   "SpawnBio"))
+                       oldnames=c("year", "spawn_bio", "adjusted"),
+                       newnames=c("Yr", "SpawnBio", "bias_adjusted"))
 
   # variance and sample size tuning information
   vartune <- matchfun2("INDEX_1",1,"INDEX_1",(nfleets+1),cols=1:21,header=TRUE)
@@ -1456,6 +1456,15 @@ SS_output <-
   returndat$FecPar1 <- parameters$Value[parameters$Label==FecPar1name]
   returndat$FecPar2 <- parameters$Value[parameters$Label==FecPar2name]
 
+  # warning for 3.30 models with multiple growth patterns that have
+  # repeat fecundity values, likely to be sorted out in new SS version
+  if (length(returndat$FecPar1) > 1){
+    warning("Plots will only show fecundity and related quantities for Growth Pattern 1")
+    returndat$FecPar1 <- returndat$FecPar1[1]
+    returndat$FecPar2 <- returndat$FecPar2[2]
+  }
+
+      
   # simple test to figure out if fecundity is proportional to spawning biomass:
   returndat$SpawnOutputUnits <- ifelse(!is.na(biology$Fecundity[1]) &&
                                        all(biology$Wt_len_F==biology$Fecundity),
@@ -1620,9 +1629,7 @@ SS_output <-
     spawnseas <- NA
   }
   returndat$spawnseas <- spawnseas
-  # get birth seasons as vector of seasons with non-zero recruitment
-  returndat$birthseas <- sort(unique(timeseries$Seas[timeseries$Recruit_0 > 0]))
-
+  
   # distribution of recruitment
   if("recruit_dist_endyr" %in% names(recruitment_dist)){
     # from SSv3.24Q onward, recruitment_dist is a list of tables, not a single table
@@ -1656,6 +1663,15 @@ SS_output <-
   }
   returndat$mainmorphs  <- mainmorphs
 
+  # get birth seasons as vector of seasons with non-zero recruitment
+  birthseas <- sort(unique(timeseries$Seas[timeseries$Recruit_0 > 0]))
+  # temporary fix for model with missing Recruit_0 values
+  # (so far this has only been seen in one 3.30 model with 2 GPs)
+  if(length(birthseas)==0){
+    birthseas <- sort(unique(morph_indexing$BirthSeason))
+  }
+  returndat$birthseas <- birthseas
+  
   # stats and dimensions
   timeseries$Yr <- timeseries$Yr + (timeseries$Seas-1)/nseasons
   ts <- timeseries[timeseries$Yr <= endyr+1,]
@@ -1755,18 +1771,15 @@ SS_output <-
     if(SS_versionNumeric <= 3.23){ # v3.23 and before had things combined under "name"
       for(icol in (1:ncol(discard))[!(names(discard) %in% c("Fleet"))])
         discard[,icol] <- as.numeric(discard[,icol])
-      discard$FleetNum <- NA
+      discard$Fleet <- NA
       if(!"Name"%in%names(discard)) discard$Name <- discard$Fleet
       for(i in 1:nrow(discard)){
-        discard$FleetNum[i] <- strsplit(discard$Name[i],"_")[[1]][1]
-        discard$FleetName[i] <- substring(discard$Name[i],nchar(discard$FleetNum[i])+2)
+        discard$Fleet[i] <- strsplit(discard$Name[i],"_")[[1]][1]
+        discard$Name[i] <- substring(discard$Name[i],nchar(discard$Fleet[i])+2)
       }
     }else{ # v3.24 and beyond has separate columns for fleet number and fleet name
       for(icol in (1:ncol(discard))[!(names(discard) %in% c("Name","SuprPer"))])
         discard[,icol] <- as.numeric(discard[,icol])
-      # redundant columns are holdovers from earlier SS versions
-      discard$FleetNum <- discard$Fleet
-      discard$FleetName <- discard$Name
     }
   }else{
     discard <- NA
@@ -1788,17 +1801,14 @@ SS_output <-
     if(SS_versionNumeric <= 3.23){ # v3.23 and before had things combined under "name"
       for(icol in (1:ncol(mnwgt))[!(names(mnwgt) %in% c("Fleet"))])
         mnwgt[,icol] <- as.numeric(mnwgt[,icol])
-      mnwgt$FleetNum <- NA
+      mnwgt$Fleet <- NA
       for(i in 1:nrow(mnwgt)){
-        mnwgt$FleetNum[i] <- strsplit(mnwgt$Fleet[i],"_")[[1]][1]
-        mnwgt$FleetName[i] <- substring(mnwgt$Fleet[i],nchar(mnwgt$FleetNum[i])+2)
+        mnwgt$Fleet[i] <- strsplit(mnwgt$Fleet[i],"_")[[1]][1]
+        mnwgt$Name[i] <- substring(mnwgt$Fleet[i],nchar(mnwgt$Fleet[i])+2)
       }
     }else{ # v3.24 and beyond has separate columns for fleet number and fleet name
       for(icol in (1:ncol(mnwgt))[!(names(mnwgt) %in% c("Name"))])
         mnwgt[,icol] <- as.numeric(mnwgt[,icol])
-      # redundant columns are holdovers from earlier SS versions
-      mnwgt$FleetNum <- mnwgt$Fleet
-      mnwgt$FleetName <- mnwgt$Name
     }
   }else{
     DF_mnwgt <- NA
@@ -2210,9 +2220,9 @@ SS_output <-
 
   # get "sigma" used by Pacific Council in P-star calculations
   SPB_final_Label <- paste0("SPB_",endyr+1)
-  if(SPB_final_Label %in% der$LABEL){
-    SPB_final_EST <- der$Value[der$LABEL==SPB_final_Label]
-    SPB_final_SD <- der$StdDev[der$LABEL==SPB_final_Label]
+  if(SPB_final_Label %in% der$Label){
+    SPB_final_EST <- der$Value[der$Label==SPB_final_Label]
+    SPB_final_SD <- der$StdDev[der$Label==SPB_final_Label]
     returndat$Pstar_sigma <- sqrt(log((SPB_final_SD/SPB_final_EST)^2+1))
   }else{
     returndat$Pstar_sigma <- NULL
