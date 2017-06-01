@@ -1237,10 +1237,6 @@ SS_output <-
 
   # variance and sample size tuning information
   vartune <- matchfun2("INDEX_1",1,"INDEX_1",(nfleets+1),cols=1:21,header=TRUE)
-  vartune <- vartune[vartune$N > 0,]
-  vartune[,1] <- vartune[,21]
-  vartune <- vartune[,c(1,8,11,13,16,18)]
-  stats$index_variance_tuning_check <- vartune
 
   ## FIT_LEN_COMPS
   if(SS_versionNumeric >= 3.3){
@@ -1283,6 +1279,22 @@ SS_output <-
     }
     ## new column "Recommend_Var_Adj" in 3.30 now matches calculation below
     #lenntune$"HarEffN/MeanInputN" <- lenntune$"HarMean"/lenntune$"mean_inputN*Adj"
+    lenntune$"HarEffN(effN)/mean(inputN*Adj)" <-
+      lenntune$"HarMean"/lenntune$"mean_inputN*Adj"
+
+    # change name to make it clear what the harmonic mean is based on
+    lenntune <- df.rename(lenntune,
+                          oldnames=c("HarMean", "mean_inputN*Adj"),
+                          newnames=c("HarMean(effN)", "mean(inputN*Adj)"))
+
+    # drop distracting column
+    lenntune <- lenntune[ , names(lenntune)!="mean_effN"]
+    
+    # put recommendation and fleetnames at the end
+    #(probably a more efficient way to do this)
+    end.names <- c("Recommend_Var_Adj", "FleetName")
+    lenntune <- lenntune[,c(which(!names(lenntune) %in% end.names),
+                            which(names(lenntune) %in% end.names))]
   }
   stats$Length_comp_Eff_N_tuning_check <- lenntune
 
@@ -1315,18 +1327,40 @@ SS_output <-
   }
   if(!is.null(dim(agentune))){
     names(agentune)[10] <- "FleetName"
-    agentune <- agentune[agentune$N>0, c(10,1,4:9)]
+    agentune <- agentune[agentune$N>0, ]
+    
     # avoid NA warnings by removing #IND values
     agentune$"MeaneffN/MeaninputN"[agentune$"MeaneffN/MeaninputN"=="-1.#IND"] <- NA
-    for(i in 2:ncol(agentune)){
-      agentune[,i] <- as.numeric(agentune[,i])
+    for(icol in which(!names(agentune) %in% "FleetName")){
+      agentune[,icol] <- as.numeric(agentune[,icol])
     }
-    agentune$"HarEffN/MeanInputN" <- agentune$"HarMean(effN)"/agentune$"mean(inputN*Adj)"
+    # calculate ratio to be more transparent
+    agentune$"HarMean(effN)/mean(inputN*Adj)" <-
+      agentune$"HarMean(effN)"/agentune$"mean(inputN*Adj)"
+
+    # calculate recommended value (for length data this is done internally in SS)
+    agentune$Recommend_Var_Adj <-
+      agentune$Var_Adj * agentune$"HarMean(effN)/mean(inputN*Adj)"
+
+    # remove distracting columns
+    badnames <- c("mean_effN","Mean(effN/inputN)","MeaneffN/MeaninputN")
+    agentune <- agentune[,!names(agentune) %in% badnames]
+
+    # put fleetnames column at the end (probably a more efficient way to do this)
+    agentune <- agentune[,c(which(names(agentune)!="FleetName"),
+                            which(names(agentune)=="FleetName"))]
+
+    # change name to make it clear what's reported and be constent with lengths
+    agentune <- df.rename(agentune,
+                          oldnames=c("Var_Adj"),
+                          newnames=c("Curr_Var_Adj"))
+    
   }else{
     agentune <- NULL
   }
   stats$Age_comp_Eff_N_tuning_check <- agentune
 
+  
   ## FIT_SIZE_COMPS
   fit_size_comps <- NULL
   if(SS_versionNumeric >= 3.3){
@@ -1341,6 +1375,7 @@ SS_output <-
       fit_size_comps[,icol] <- as.numeric(fit_size_comps[,icol])
     }
   }
+  ### note: should add "Recommend_Var_Adj" value to match other tables
 
   # Size comp effective N tuning check (only available in version 3.30.01.12 and above)
   if(SS_versionNumeric >= 3.3){
@@ -1381,6 +1416,7 @@ SS_output <-
   }
   returndat$survey_units <- survey_units
   returndat$survey_error <- survey_error
+  returndat$index_variance_tuning_check <- vartune
   returndat$IsFishFleet  <- IsFishFleet
   returndat$nfishfleets  <- nfishfleets
 
@@ -1448,6 +1484,10 @@ SS_output <-
     FecPar1name <- "Eggs_intercept_Fem"
     FecPar2name <- "Eggs_slope_Wt_Fem"
   }
+  if(is.na(lbinspop[1])){
+    lbinspop <- biology$Low[biology$GP==1]
+  }
+      
   returndat$biology <- biology
   returndat$FecType <- FecType
   returndat$FecPar1name <- FecPar1name
