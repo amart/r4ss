@@ -34,7 +34,7 @@ sim_get_forecast_catch_by_fleet <- function(forecast_report_path,num_fleets=0,nu
             }
 
             # get the columns with "dead(B):_[N]"
-            catch_cols <- which(startsWith(fc_table[label_row,],"dead(B):_") == TRUE)
+            catch_cols <- which(startsWith(as.character(fc_table[label_row,]),"dead(B):_") == TRUE)
 
             if (length(catch_cols) == num_fleets)
             {
