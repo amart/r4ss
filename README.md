@@ -1,4 +1,5 @@
-This repository is a fork of r4ss/r4ss with additional functions for use with amart/ss-sims.
+This repository is a fork of r4ss/r4ss with additional functions for use with [amart/ss-sims](https://github.com/amart/ss-sims).
+
 
 # r4ss: R code for Stock Synthesis
 [![Build Status](https://travis-ci.org/r4ss/r4ss.png?branch=master)](https://travis-ci.org/r4ss/r4ss)
@@ -26,13 +27,15 @@ install.packages("devtools")
 devtools::install_github("amart/r4ss")
 ```
 
-Note: devtools will give this message: "*WARNING: Rtools is required to build R packages, but is not currently installed.*" However, Rtools is NOT required for installing r4ss via devtools, so ignore the warning.
+Note: devtools may give this message: "*WARNING: Rtools is required to build R packages, but is not currently installed.*" However, Rtools is NOT required for installing r4ss via devtools, so ignore the warning.
 
-Once you have installed the r4ss package, it can be loaded in the regular manner:
+Once you have installed the r4ss package, it can be loaded using:
 
 ```S
 library(r4ss)
 ````
+
+To get notifications about r4ss, you can watch this GitHub project or follow messages on the forums on Stock Synthesis VLab (account required).
 
 There is now a basic Vignette, which can be viewed at <https://github.com/r4ss/r4ss/blob/master/vignettes/r4ss-intro-vignette.Rmd> or built locally on your computer using this command to install the package:
 

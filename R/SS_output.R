@@ -956,7 +956,7 @@ SS_output <-
                                       rownames(estimated_non_dev_parameters))))
   }
   # remove any dev rows from table
-  if(!is.null(devrows)){
+  if(!is.null(devrows) & length(devrows) > 0){
     estimated_non_dev_parameters <- estimated_non_dev_parameters[-devrows,]
   }
   # add table to stats that get printed in console
@@ -1399,8 +1399,13 @@ SS_output <-
                        newnames=c("Yr", "SpawnBio", "bias_adjusted"))
 
   # variance and sample size tuning information
-  vartune <- matchfun2("INDEX_1",1,"INDEX_1",(nfleets+1),cols=1:21,header=TRUE)
-
+  vartune <- matchfun2("INDEX_1", 1, "INDEX_1", (nfleets+1), header=TRUE)
+  # fill in column name that was missing in SS 3.24 (and perhaps other versions)
+  # and replace inconsistent name in some 3.30 versions with standard name
+  vartune <- df.rename(vartune,
+                       oldnames=c("NoName", "fleetname"),
+                       newnames=c("Name", "Name"))
+  
   ## FIT_LEN_COMPS
   if(SS_versionNumeric >= 3.3){
     # This section hasn't been read by SS_output in the past,
@@ -2041,16 +2046,14 @@ SS_output <-
 
     # head of Kobe_Plot section differs by SS version,
     # but I haven't kept track of which is which
-    Kobe_head <- matchfun2("Kobe_Plot",0,"Kobe_Plot",3,header=TRUE)
-    shift <- 1
+    Kobe_head <- matchfun2("Kobe_Plot",0,"Kobe_Plot",5,header=TRUE)
+    shift <- grep("^Y", Kobe_head[,1]) # may be "Year" or "Yr"
     Kobe_warn <- NA
     Kobe_MSY_basis <- NA
     if(length(grep("_basis_is_not",Kobe_head[1,1]))>0){
-      shift <- shift+1
       Kobe_warn <- Kobe_head[1,1]
     }
     if(length(grep("MSY_basis",Kobe_head[2,1]))>0){
-      shift <- shift+1
       Kobe_MSY_basis <- Kobe_head[2,1]
     }
     Kobe <- matchfun2("Kobe_Plot",shift,"SPAWN_RECRUIT",-1,header=TRUE)
@@ -2058,9 +2061,7 @@ SS_output <-
     Kobe[Kobe=="1.#INF"] <- NA
     Kobe[Kobe=="-1.#IND"] <- NA
     names(Kobe) <- gsub("/", ".", names(Kobe), fixed=TRUE)
-    for(icol in 1:3){
-      Kobe[,icol] <- as.numeric(Kobe[,icol])
-    }
+    Kobe[, 1:3] <- lapply(Kobe[, 1:3], as.numeric)
   }else{
     Kobe <- NA
     Kobe_warn <- NA
