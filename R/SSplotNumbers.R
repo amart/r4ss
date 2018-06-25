@@ -163,6 +163,9 @@ SSplotNumbers <-
     }
     if(nseasons>1){
       cat("Numbers at age plots are for season 1 only\n")
+      # change plot labels for seasonal models 
+      labels[16] <- gsub(pattern="of year", replacement="of season 1", x=labels[16])
+      labels[17] <- gsub(pattern="of year", replacement="of season 1", x=labels[17])
     }
     for(iarea in areas){
       for(iperiod in 1:length(period)){
@@ -212,17 +215,18 @@ SSplotNumbers <-
             # numbers here are scaled by units
             resz <- c(resz, numbers.unit * natagetemp0[,i])
           }
+
           # clean up big numbers
           units <- ""
-          if(max(resz) > 1e9){
+          if(max(resz, na.rm=TRUE) > 1e9){
             resz <- resz/1e9
             units <- "billion"
           }
-          if(max(resz) > 1e6 & units==""){
+          if(max(resz, na.rm=TRUE) > 1e6 & units==""){
             resz <- resz/1e6
             units <- "million"
           }
-          if(max(resz) > 1e3 & units==""){
+          if(max(resz, na.rm=TRUE) > 1e3 & units==""){
             resz <- resz/1e3
             units <- "thousand"
           }
@@ -247,7 +251,7 @@ SSplotNumbers <-
           }
           # title for use in title or caption
           plottitle1 <- paste0(periodtitle, " ", labels[15], sextitle,
-                               " in (max ~ ", format(round(max(resz), 1), nsmall=1),
+                               " in (max ~ ", format(round(max(resz, na.rm=TRUE), 1), nsmall=1),
                                " ", units, ")")
           # title if requested
           main <- ""
@@ -392,7 +396,7 @@ SSplotNumbers <-
 
     ##########
     # repeat code above for numbers at length
-    if(length(intersect(6:7, subplots))>1) # do these numbers at length plots
+    if(length(intersect(6:7, subplots))>0) # do these numbers at length plots
     {
       column1 <- column1 - 1 # because index of lengths starts at 1, not 0 as in ages
 
@@ -439,17 +443,18 @@ SSplotNumbers <-
               # numbers here are scaled by units
               resz <- c(resz, numbers.unit * natlentemp0[,ilen])
             }
+
             # clean up big numbers
             units <- ""
-            if(max(resz) > 1e9){
+            if(max(resz, na.rm=TRUE) > 1e9){
               resz <- resz/1e9
               units <- "billion"
             }
-            if(max(resz) > 1e6 & units==""){
+            if(max(resz, na.rm=TRUE) > 1e6 & units==""){
               resz <- resz/1e6
               units <- "million"
             }
-            if(max(resz) > 1e3 & units==""){
+            if(max(resz, na.rm=TRUE) > 1e3 & units==""){
               resz <- resz/1e3
               units <- "thousand"
             }
@@ -465,7 +470,7 @@ SSplotNumbers <-
             if(period[iperiod]=="M") periodtitle <- labels[17] else
             stop("'period' input to SSplotNumbers should include only 'B' or 'M'")
               plottitle1 <- paste0(periodtitle, " ", labels[18], sextitle,
-                                " in (max ~ ",format(round(max(resz),1),nsmall=1),
+                                " in (max ~ ",format(round(max(resz, na.rm=TRUE),1),nsmall=1),
                                 " ",units,")")
             main <- ""
             if(mainTitle) {
