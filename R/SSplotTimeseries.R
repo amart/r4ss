@@ -161,6 +161,7 @@ SSplotTimeseries <-
   }
   # modifying data to subset for a single season
   ts <- timeseries
+  
   if(nseasons>1){
     if(SS_versionshort=="SS-V3.11"){
       # seasfracs previously unavailable so assume all seasons equal
@@ -171,6 +172,17 @@ SSplotTimeseries <-
     }
   }else{
     ts$YrSeas <- ts$Yr
+  }
+
+  # crop any years beyond maxyr
+  if(!is.null(maxyr)){
+    if(maxyr >= min(ts$YrSeas)){
+      ts <- ts[ts$YrSeas <= maxyr,]
+    }else{
+      warning("'maxyr' input lower than minimum (",
+              min(ts$YrSeas), "), changing to NULL")
+      maxyr <- NULL
+    }
   }
 
   # warn about spawning season--seems to no longer be necessary now that title
@@ -320,8 +332,9 @@ SSplotTimeseries <-
     if(uncertainty & subplot %in% c(7,9,11)){
       main <- paste(main,"with ~95% asymptotic intervals")
       if(!"SSB_Virgin" %in% derived_quants$Label){
-        cat("Skipping spawning biomass with uncertainty plot because 'SSB_Virgin' not in derived quantites.\n",
-            "  Try changing 'min yr for Spbio_sdreport' in starter file to -1.\n")
+        warning("Skipping spawning biomass with uncertainty plot because 'SSB_Virgin' not in derived quantites.\n",
+                "  Try changing 'min yr for Spbio_sdreport' in starter file to -1.\n")
+        stdtable <- NULL
       }else{
         # get subset of DERIVED_QUANTITIES
         if(subplot==7){ # spawning biomass
@@ -380,7 +393,9 @@ SSplotTimeseries <-
     }
     if(subplot%in%c(13,15)) ymax <- 1 # these plots show fractions
 
-    if(uncertainty & subplot %in% c(7,9,11)) ymax <- max(ymax,stdtable$upper, na.rm=TRUE)
+    if(uncertainty & subplot %in% c(7,9,11)){
+      ymax <- max(ymax,stdtable$upper, na.rm=TRUE)
+    }
 
     if(print){ # if printing to a file
       # adjust file names
