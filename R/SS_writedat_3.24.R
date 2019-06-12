@@ -160,6 +160,7 @@ SS_writedat_3.24 <- function(datlist,
   }
 
   # write a header
+  writeComment(paste0("#V", datlist$SSversion))
   writeComment("#C data file created using the SS_writedat function in the R package r4ss")
   writeComment(paste("#C should work with SS version:", datlist$SSversion))
   writeComment(paste("#C file write time:", Sys.time()))
@@ -246,7 +247,7 @@ SS_writedat_3.24 <- function(datlist,
   if (datlist$N_agebins > 0) {
     writeComment("#_agebin_vector")
     # writeLines(paste(datlist$agebin_vector,collapse=" "))
-    #  cat("L232 in SS_writedat\n");browser()
+    #  cat("L232 in SS_writedat\n")
     wl.vector("agebin_vector")
   }
   wl("N_ageerror_definitions")

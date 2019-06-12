@@ -95,8 +95,8 @@ make_multifig_sexratio <-
   df.list <- list();k <- 1
   for(yr.temp in yrvec){
     for(bin in unique(dbase$Bin)){
-      female <- dbase[dbase$Gender==1 & dbase$Bin==bin & dbase$Yr==yr.temp,]
-      male <- dbase[dbase$Gender==2 & dbase$Bin==bin &dbase$Yr==yr.temp,]
+      female <- dbase[dbase$Sex==1 & dbase$Bin==bin & dbase$Yr==yr.temp,]
+      male <- dbase[dbase$Sex==2 & dbase$Bin==bin &dbase$Yr==yr.temp,]
       nm <- nrow(male); nf <- nrow(female)
       ## Four cases depending on which data were observed. If only one sex
       ## was observed, do some special things. If none, we'll skip it
@@ -123,7 +123,6 @@ make_multifig_sexratio <-
         o <- e <- se.ratio <- NA
       }
       ##  print(c(yr.temp, bin, e, o, se.ratio, effN, N))
-      ## if(yr.temp==1997 & bin==5) browser()
       df.list[[k]] <- data.frame(Yr=yr.temp, Bin=bin, Exp=e, Obs=o,
                                  se.ratio=se.ratio, effN=effN, N=N)
       k <- k+1
@@ -156,7 +155,6 @@ make_multifig_sexratio <-
   df$pch2 <- rep(16, nrow(df))
   df$pch2[which.toobig] <- 4
   df$pch2[which.toosmall] <- 4
-  ## browser()
   ## get axis labels
   yaxs_lab <- pretty(yrange)
   maxchar <- max(nchar(yaxs_lab))
