@@ -1,3 +1,9 @@
 ^\.git$
 cran-comments.md
 ^\.travis\.yml$
+man-roxygen
+tests
+inst/extdata
+ignored
+revdep
+^CRAN-RELEASE$
