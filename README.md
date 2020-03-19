@@ -11,32 +11,24 @@ Stock Synthesis is a fisheries stock assessment model written in ADMB by Rick Me
 
 ## Installation
 
-The latest r4ss version on CRAN can be installed using a command like
+The most recent release of r4ss can be installed from CRAN using:
 
 ```S
 install.packages("r4ss")
 ```
 
-To get notifications about r4ss, you can watch this GitHub project and/or join the r4ss email list: <https://groups.google.com/forum/#!forum/r4ss>
-
-Additional information about r4ss at the old Google Code page, <https://code.google.com/p/r4ss/>, will be migrated over to GitHub in the future.
-
-More frequent enhancements and bug fixes are posted to this GitHub project. The latest version of r4ss can be installed directly from Github at any time via the `devtools` package in R with the following commands:
+Install the master branch directly from GitHub:
 
 ```S
-install.packages("devtools")
-devtools::install_github("amart/r4ss")
+install.packages("remotes")
+remotes::install_github("amart/r4ss")
 ```
 
-Note: devtools may give this message: "*WARNING: Rtools is required to build R packages, but is not currently installed.*" However, Rtools is NOT required for installing r4ss via devtools, so ignore the warning.
-
-Ongoing development of r4ss has been mostly taking place in the "Development" branch on GitHub. That branch may be less stable, but can provide fixes, especially to issues related to beta releases of new SS versions. The development branch can be installed using the command:
+Ongoing development of r4ss has been mostly taking place in the "development" branch on GitHub. The development branch may be less stable, but can provide the most recent features and bug fixes. The development branch can be installed using the command:
 
 ```S
-devtools::install_github("r4ss/r4ss", ref="development")
+remotes::install_github("r4ss/r4ss", ref="development")
 ```
-
-
 
 Once you have installed the r4ss package, it can be loaded using:
 
@@ -44,17 +36,16 @@ Once you have installed the r4ss package, it can be loaded using:
 library(r4ss)
 ````
 
-To get notifications about r4ss, you can watch this GitHub project or follow messages on the forums on Stock Synthesis VLab (account required).
+To get notifications about r4ss, you can watch this GitHub project or follow messages on the [forums on Stock Synthesis VLab](https://vlab.ncep.noaa.gov/web/stock-synthesis/public-forums). Note that to subscribe to the Stock Synthesis VLab forums, an account is required, but those without an account may still view and post forum messages.
 
-There is now a basic Vignette, which can be viewed at <https://github.com/r4ss/r4ss/blob/master/vignettes/r4ss-intro-vignette.Rmd> or built locally on your computer using this command to install the package:
-
+A basic vignette can be viewed at <https://cran.r-project.org/web/packages/r4ss/vignettes/r4ss-intro-vignette.html> or built locally on your computer using this command to install the package:
 ```S
-devtools::install_github("amart/r4ss", build_vignettes = TRUE)
+remotes::install_github("amart/r4ss", build_vignettes = TRUE)
 ```
 
 ## Changes
 
-See NEWS.md for a (not very complete) log of changes to r4ss, starting with r4ss v1.24.0 from 2014. The list of commits at <https://github.com/r4ss/r4ss/commits/master> provides a much more detailed list.
+See [NEWS.md](https://github.com/r4ss/r4ss/blob/master/NEWS.md) for a (not very complete) log of changes to r4ss, starting with r4ss v1.24.0 from 2014. The list of commits at <https://github.com/r4ss/r4ss/commits/master> provides a much more detailed list.
 
 
 ## Reporting problems
