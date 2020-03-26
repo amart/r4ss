@@ -4,9 +4,16 @@
 \alias{sim_add_length_comp}
 \title{this function adds a new line for a length composition observation in the lencomp data structure for the SS DAT file}
 \usage{
-sim_add_length_comp(dat_struct = NULL, comp_year = -1, comp_seas = -1,
-  comp_fleet = -1, comp_Nsamp = -1, comp_gender = -1, comp_part = -1,
-  comp_matrix = NULL)
+sim_add_length_comp(
+  dat_struct = NULL,
+  comp_year = -1,
+  comp_seas = -1,
+  comp_fleet = -1,
+  comp_Nsamp = -1,
+  comp_gender = -1,
+  comp_part = -1,
+  comp_matrix = NULL
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure to be edited}
@@ -31,4 +38,3 @@ edited DAT structure
 \description{
 this function adds a new line for a length composition observation in the lencomp data structure for the SS DAT file
 }
-

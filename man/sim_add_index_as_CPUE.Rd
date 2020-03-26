@@ -4,8 +4,14 @@
 \alias{sim_add_index_as_CPUE}
 \title{this function adds a new line for an index observation in the CPUE dataframe in the data structure for the SS DAT file}
 \usage{
-sim_add_index_as_CPUE(dat_struct = NULL, index_year = -1, seas = -1,
-  index_fleet = -1, index_obs = -999, index_std_err = 999)
+sim_add_index_as_CPUE(
+  dat_struct = NULL,
+  index_year = -1,
+  seas = -1,
+  index_fleet = -1,
+  index_obs = -999,
+  index_std_err = 999
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure to be edited}
@@ -26,4 +32,3 @@ edited DAT structure
 \description{
 this function adds a new line for an index observation in the CPUE dataframe in the data structure for the SS DAT file
 }
-

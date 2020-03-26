@@ -4,8 +4,7 @@
 \alias{sim_map_bins_to_bins}
 \title{this function maps values from population bins to values for data bins}
 \usage{
-sim_map_bins_to_bins(pop_vector = NULL, data_vector = NULL,
-  comp_matrix = NULL)
+sim_map_bins_to_bins(pop_vector = NULL, data_vector = NULL, comp_matrix = NULL)
 }
 \arguments{
 \item{pop_vector}{- vector of bin values for input values}
@@ -20,4 +19,3 @@ output values (matrix)
 \description{
 this function maps values from population bins to values for data bins
 }
-

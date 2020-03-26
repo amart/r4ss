@@ -17,4 +17,3 @@ edited length composition structure
 \description{
 this function maps a population length bins length composition observation to a data length bins length composition observation
 }
-

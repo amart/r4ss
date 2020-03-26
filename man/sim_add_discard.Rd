@@ -4,8 +4,14 @@
 \alias{sim_add_discard}
 \title{this function adds a new line for an observation in the discard data structure for the SS DAT file}
 \usage{
-sim_add_discard(dat_struct = NULL, dis_year = -1, dis_seas = -1,
-  dis_fleet = -1, dis_obs = -999, dis_std_err = 999)
+sim_add_discard(
+  dat_struct = NULL,
+  dis_year = -1,
+  dis_seas = -1,
+  dis_fleet = -1,
+  dis_obs = -999,
+  dis_std_err = 999
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure to be edited}
@@ -26,4 +32,3 @@ edited DAT structure
 \description{
 this function adds a new line for an observation in the discard data structure for the SS DAT file
 }
-

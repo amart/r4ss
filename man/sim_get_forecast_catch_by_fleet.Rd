@@ -4,8 +4,12 @@
 \alias{sim_get_forecast_catch_by_fleet}
 \title{this function gets the catch for the first forecast year from the Forecast-report.sso file}
 \usage{
-sim_get_forecast_catch_by_fleet(forecast_report_path, num_fleets = 0,
-  num_seasons = 0, num_fc_years = 0)
+sim_get_forecast_catch_by_fleet(
+  forecast_report_path,
+  num_fleets = 0,
+  num_seasons = 0,
+  num_fc_years = 0
+)
 }
 \arguments{
 \item{forecast_report_path}{- full path for Forecast-report.sso file}
@@ -22,4 +26,3 @@ matrix of catch by fleet (columns) and seasons (rows)
 \description{
 this function gets the catch for the first forecast year from the Forecast-report.sso file
 }
-

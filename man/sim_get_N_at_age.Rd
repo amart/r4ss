@@ -4,8 +4,13 @@
 \alias{sim_get_N_at_age}
 \title{this function retrieves the numbers-at-age for the year, season, and fleet}
 \usage{
-sim_get_N_at_age(dat_struct = NULL, rep_struct = NULL, ret_year = -1,
-  ret_seas = -1, fleet_num = -1)
+sim_get_N_at_age(
+  dat_struct = NULL,
+  rep_struct = NULL,
+  ret_year = -1,
+  ret_seas = -1,
+  fleet_num = -1
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure}
@@ -24,4 +29,3 @@ structure with numbers-at-age
 \description{
 this function retrieves the numbers-at-age for the year, season, and fleet
 }
-

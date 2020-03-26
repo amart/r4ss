@@ -4,9 +4,14 @@
 \alias{sim_generate_length_comp_from_expected}
 \title{this function generates a length composition observation given the expected values for the fleet in the data structure for the SS DAT file}
 \usage{
-sim_generate_length_comp_from_expected(exp_dat_struct = NULL,
-  exp_rep_struct = NULL, gen_year = -1, gen_seas = -1, gen_fleet = -1,
-  apply_error = FALSE)
+sim_generate_length_comp_from_expected(
+  exp_dat_struct = NULL,
+  exp_rep_struct = NULL,
+  gen_year = -1,
+  gen_seas = -1,
+  gen_fleet = -1,
+  apply_error = FALSE
+)
 }
 \arguments{
 \item{exp_dat_struct}{- DAT structure with the expected values}
@@ -27,4 +32,3 @@ generated length composition matrix with sample size
 \description{
 this function generates a length composition observation given the expected values for the fleet in the data structure for the SS DAT file
 }
-

@@ -4,8 +4,14 @@
 \alias{sim_add_CPUE}
 \title{this function adds a new line for a CPUE/survey observation in the CPUE data structure for the SS DAT file}
 \usage{
-sim_add_CPUE(dat_struct = NULL, CPUE_year = -1, CPUE_seas = -1,
-  CPUE_fleet = -1, CPUE_obs = -999, CPUE_std_err = 999)
+sim_add_CPUE(
+  dat_struct = NULL,
+  CPUE_year = -1,
+  CPUE_seas = -1,
+  CPUE_fleet = -1,
+  CPUE_obs = -999,
+  CPUE_std_err = 999
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure to be edited}
@@ -26,4 +32,3 @@ edited DAT structure
 \description{
 this function adds a new line for a CPUE/survey observation in the CPUE data structure for the SS DAT file
 }
-

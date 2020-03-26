@@ -19,4 +19,3 @@ structure with selectivity-at-length
 \description{
 this function retrieves the most recent selectivity-at-length from the SS report file structure
 }
-

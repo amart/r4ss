@@ -4,8 +4,13 @@
 \alias{sim_get_N_at_length}
 \title{this function retrieves the numbers-at-length for the year, season, and fleet}
 \usage{
-sim_get_N_at_length(dat_struct = NULL, rep_struct = NULL, ret_year = -1,
-  ret_seas = -1, fleet_num = -1)
+sim_get_N_at_length(
+  dat_struct = NULL,
+  rep_struct = NULL,
+  ret_year = -1,
+  ret_seas = -1,
+  fleet_num = -1
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure}
@@ -24,4 +29,3 @@ structure with numbers-at-length
 \description{
 this function retrieves the numbers-at-length for the year, season, and fleet
 }
-

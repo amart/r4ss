@@ -21,4 +21,3 @@ edited DAT structure
 this function adds new lines for catch in the catch dataframe in the data structure
 for the SS DAT file
 }
-

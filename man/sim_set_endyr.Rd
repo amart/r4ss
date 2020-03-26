@@ -17,4 +17,3 @@ edited DAT structure
 \description{
 this function sets the variable endyr in the data structure for the SS DAT file
 }
-

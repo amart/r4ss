@@ -4,9 +4,15 @@
 \alias{sim_generate_CPUE}
 \title{this function generates a CPUE observation for the CPUE dataframe in the data structure for the SS DAT file}
 \usage{
-sim_generate_CPUE(dat_struct = NULL, rep_struct = NULL, CPUE_year = -1,
-  CPUE_seas = -1, CPUE_fleet = -1, CPUE_std_err = -1,
-  apply_error = FALSE)
+sim_generate_CPUE(
+  dat_struct = NULL,
+  rep_struct = NULL,
+  CPUE_year = -1,
+  CPUE_seas = -1,
+  CPUE_fleet = -1,
+  CPUE_std_err = -1,
+  apply_error = FALSE
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure}
@@ -29,4 +35,3 @@ structure with generated CPUE_obs and CPUE_std_err
 \description{
 this function generates a CPUE observation for the CPUE dataframe in the data structure for the SS DAT file
 }
-

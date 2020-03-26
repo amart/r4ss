@@ -17,4 +17,3 @@ num_samples - number of samples
 this function calculates the number of sample sizes needed for
 generating a sample from a multinomial distribution with num_bins
 }
-

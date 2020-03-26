@@ -19,4 +19,3 @@ structure with selectivity-at-age
 \description{
 this function retrieves the most recent selectivity-at-age from the SS report file structure
 }
-

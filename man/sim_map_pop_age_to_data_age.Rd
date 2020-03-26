@@ -17,4 +17,3 @@ edited age composition structure
 \description{
 this function maps a population age bins age composition observation to a data age bins age composition observation
 }
-

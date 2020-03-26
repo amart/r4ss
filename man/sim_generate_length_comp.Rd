@@ -4,8 +4,14 @@
 \alias{sim_generate_length_comp}
 \title{this function generates a length composition observation for the fleet in the data structure for the SS DAT file}
 \usage{
-sim_generate_length_comp(dat_struct = NULL, rep_struct = NULL,
-  gen_year = -1, gen_seas = -1, gen_fleet = -1, apply_error = FALSE)
+sim_generate_length_comp(
+  dat_struct = NULL,
+  rep_struct = NULL,
+  gen_year = -1,
+  gen_seas = -1,
+  gen_fleet = -1,
+  apply_error = FALSE
+)
 }
 \arguments{
 \item{dat_struct}{- DAT structure}
@@ -26,4 +32,3 @@ generated length composition matrix with sample size
 \description{
 this function generates a length composition observation for the fleet in the data structure for the SS DAT file
 }
-
